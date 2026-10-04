@@ -35,3 +35,23 @@
 /struts2-demo-parent/demo-35-plugin-async/target/
 /struts2-demo-parent/struts2-1/target/
 /struts2-demo-parent/struts2-demo-test-support/target/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+
+# IDE - VS Code
+.vscode/
+
+# Maven 编译输出(补充)
+/target/
+**/target/
