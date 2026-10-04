@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="ancient04" namespace="/" extends="struts1-default">
+        <!-- forwardPaths 让 struts1-default 包识别 Struts 1 的 forward 配置 -->
+        <forward name="success" path="/struts1-result.jsp"/>
+        <action name="legacy" class="com.example.learn.struts2.ancient04.Struts1LegacyAction">
+            <result name="success">/struts1-result.jsp</result>
+        </action>
+    </package>
+</struts>

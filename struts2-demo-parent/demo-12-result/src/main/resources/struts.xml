@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <package name="default" namespace="/" extends="json-default">
+
+        <!-- 1) dispatcher（默认 type，省略不写） -->
+        <action name="dispatcher" class="com.example.learn.struts2.demo12.ResultAction" method="dispatch">
+            <result name="success">/dispatcher.jsp</result>
+        </action>
+
+        <!-- 2) redirect：浏览器收到 302，跳转到新 URL -->
+        <action name="redirect" class="com.example.learn.struts2.demo12.ResultAction" method="redirect">
+            <result name="success" type="redirect">/redirect-target.jsp</result>
+        </action>
+
+        <!-- 3) chain：转发到另一个 Action，共享同一值栈 -->
+        <action name="chain-first" class="com.example.learn.struts2.demo12.ResultAction" method="chainFirst">
+            <result name="chain-next" type="chain">chain-second</result>
+        </action>
+        <action name="chain-second" class="com.example.learn.struts2.demo12.ResultAction" method="chainSecond">
+            <result name="success">/chain-result.jsp</result>
+        </action>
+
+        <!-- 4) json：返回 JSON 字符串（需 struts2-json-plugin） -->
+        <action name="json" class="com.example.learn.struts2.demo12.ResultAction" method="json">
+            <result name="success" type="json">
+                <param name="root">payload</param>
+                <!-- 防泄漏敏感字段：excludeProperties / includeProperties -->
+                <param name="excludeProperties">password</param>
+            </result>
+        </action>
+    </package>
+</struts>

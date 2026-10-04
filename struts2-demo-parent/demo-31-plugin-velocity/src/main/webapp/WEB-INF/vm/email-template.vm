@@ -1,0 +1,16 @@
+#set($subject = "欢迎注册 $user.username")
+主题：$subject
+
+您好 $user.username，
+
+感谢您注册我们的服务！
+
+#if($user.vip)
+您已开通 VIP，享专属客服。
+#else
+您还不是 VIP 会员，[了解更多](https://example.com/vip)。
+#end
+
+点击激活账号：$activationUrl
+
+—— 系统邮件，请勿直接回复

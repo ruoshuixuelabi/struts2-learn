@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example.learn</groupId>
+        <artifactId>struts2-demo-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>struts2-demo-test-support</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Struts 2 Demo Test Support</name>
+    <description>
+        公共测试基类 {@code org.apache.struts2.StrutsJUnit5Test}，让所有 demo
+        能用 JUnit 5（{@code @Test} + {@code @BeforeEach}/{@code @AfterEach}）
+        编写 Struts2 Action 单元测试。封装 {@code struts2-junit-plugin} 的
+        {@link org.apache.struts2.junit.StrutsJUnit4TestCase}，对外暴露
+        {@code executeAction(String uri)} + {@code actionInvocation} 字段。
+    </description>
+
+    <dependencies>
+        <!--
+            struts2-junit-plugin 在它的父 pom（struts2-plugins）里把 struts2-core
+            声明为 provided 作用域，所以不会传递进来。我们这里编译期需要 XWorkJUnit4TestCase
+            和 ActionInvocation，所以显式加上。
+        -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-junit-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+        </dependency>
+        <!--
+            Spring MockHttpServletResponse 内部需要 spring-web 的 MediaType。
+            struts2-junit-plugin 自带 spring-test 但没把 spring-web 透出来，
+            所以在测试基类里显式声明，传递到所有引用本模块的 demo。
+
+            必须显式指定 compile scope（覆盖父 pom 的 test scope 默认值；test 范围内的
+            依赖不向下游传递，会导致调用方 NoClassDefFoundError）。
+            对调用方而言，由于调用方在自己的 pom 里把 test-support 声明为 test scope，
+            传递下来的 spring-web 也会被收窄为 test scope，不会污染主代码。
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

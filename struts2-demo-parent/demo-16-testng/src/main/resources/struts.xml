@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="calc" class="com.example.learn.struts2.demo16.CalcAction">
+            <result name="success">/calc.jsp</result>
+            <result name="input">/calc-form.jsp</result>
+        </action>
+    </package>
+</struts>

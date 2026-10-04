@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        Struts 2.7+ 默认 requireAnnotations=true，所有 setter 必须显式 @StrutsParameter 才注入。
+        本 demo 用传统 setter 风格（user.username / page 等），关闭校验才能正常注入。
+    -->
+    <constant name="struts.parameters.requireAnnotations" value="false"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="user" class="com.example.learn.struts2.demo26.UserAction">
+            <result name="success">/user.jsp</result>
+            <result name="input">/user.jsp</result>
+            <allowed-methods>list,save,execute</allowed-methods>
+        </action>
+    </package>
+</struts>

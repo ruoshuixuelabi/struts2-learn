@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        切换 ObjectFactory 到 CDI：CDIObjectFactory 从 CDI 容器获取 Action 实例。
+        注意：测试模式（StrutsJUnit5Test）下没有 JNDI "java:comp/BeanManager"，
+        CdiObjectFactory.findBeanManager() 返回 null 并 NPE。这里覆盖为 "struts" 用默认工厂，
+        Action 上的 @Inject 字段在测试中拿不到值。生产环境跑 mvn jetty:run（Weld servlet 容器）。
+    -->
+    <constant name="struts.objectFactory" value="struts"/>
+    <!-- cdi-plugin 注册了名为 cdi 的 ProxyService bean；这里显式用 struts-default 中的 default -->
+    <bean type="org.apache.struts2.util.ProxyService" name="default"
+          class="org.apache.struts2.util.StrutsProxyService" scope="singleton"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="user" class="com.example.learn.struts2.demo24.UserAction">
+            <result>/user.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+
+    <!-- 关闭 devMode（生产配置） -->
+    <constant name="struts.devMode" value="false"/>
+
+    <!-- OGNL allowlist：仅允许 java.lang / java.util / xwork2 / struts2 / 自己的包 -->
+    <constant name="struts.xwork.allowed.package.names" value="
+        java.lang,
+        java.util,
+        com.opensymphony.xwork2,
+        org.apache.struts2,
+        com.example.learn.struts2
+    "/>
+
+    <package name="default" namespace="/" extends="struts-default" strict-method-invocation="true">
+
+        <interceptors>
+            <!-- 自定义 OGNL 安全拦截器 -->
+            <interceptor name="ognlSecurity" class="com.example.learn.struts2.demo17.OgnlSecurityInterceptor"/>
+
+            <!-- 包装默认栈，先跑自定义拦截器 -->
+            <interceptor-stack name="secureStack">
+                <interceptor-ref name="ognlSecurity"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="secureStack"/>
+
+        <action name="profile" class="com.example.learn.struts2.demo17.ProfileAction">
+            <result name="success">/profile.jsp</result>
+            <result name="input">/profile.jsp</result>
+            <result name="hacker">/hacker.jsp</result>
+        </action>
+    </package>
+</struts>

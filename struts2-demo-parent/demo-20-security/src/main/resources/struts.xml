@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+
+    <!-- ============================================== -->
+    <!-- 第 1 道：devMode=false（生产配置）              -->
+    <!-- ============================================== -->
+    <constant name="struts.devMode" value="false"/>
+
+    <!-- ============================================== -->
+    <!-- 第 2 道：OGNL allowlist（限制可访问包）         -->
+    <!-- ============================================== -->
+    <constant name="struts.xwork.allowed.package.names" value="
+        java.lang,
+        java.util,
+        com.opensymphony.xwork2,
+        org.apache.struts2,
+        com.example.learn.struts2
+    "/>
+
+    <!-- 7.x 默认开启；显式列出常见危险类 -->
+    <constant name="struts.ognl.excludedClasses" value="
+        java.lang.Runtime,
+        java.lang.ProcessBuilder,
+        java.lang.System
+    "/>
+
+    <package name="default" namespace="/" extends="struts-default" strict-method-invocation="true">
+
+        <interceptors>
+            <!-- 第 3 道：自定义黑名单拦截器 -->
+            <interceptor name="ognlHardening" class="com.example.learn.struts2.demo20.OgnlHardeningInterceptor"/>
+
+            <interceptor-stack name="hardenedStack">
+                <interceptor-ref name="ognlHardening"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="hardenedStack"/>
+
+        <action name="secure-action" class="com.example.learn.struts2.demo20.SecureAction">
+            <result name="success">/secure-result.jsp</result>
+            <result name="input">/secure-form.jsp</result>
+        </action>
+
+        <action name="secure-info" class="com.example.learn.struts2.demo20.SecureAction" method="info">
+            <result name="success">/secure-result.jsp</result>
+        </action>
+    </package>
+</struts>

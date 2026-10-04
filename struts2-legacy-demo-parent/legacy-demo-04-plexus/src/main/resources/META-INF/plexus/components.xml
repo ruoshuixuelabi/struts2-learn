@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-set>
+    <components>
+        <component>
+            <role>com.example.learn.struts2.legacy04.UserService</role>
+            <role-hint>default</role-hint>
+            <implementation>com.example.learn.struts2.legacy04.UserServiceImpl</implementation>
+            <component-profile>default</component-profile>
+        </component>
+    </components>
+</component-set>

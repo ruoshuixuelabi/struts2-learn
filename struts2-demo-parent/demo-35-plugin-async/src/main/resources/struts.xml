@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    注：原 DOCTYPE https://struts.apache.org/dtds/struts-7.0.dtd 当前 404，
+    且单元测试环境下 javax.xml.accessExternalDTD 默认禁止 https 访问外部 DTD。
+    这里用 struts-6.0.dtd（已验证可访问）替代——Struts 7.x 配置 schema 与 6.x 兼容。
+-->
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        demo-35: Async 插件演示
+        - long-task: execAndWait 拦截器（Struts 7.x 把旧名 executeAndWait 改成 camelCase execAndWait；modern interceptor 自动后台化 execute()）
+        - task-create: AJAX 入口，返回 JSON taskId（不走 execAndWait）
+        - progress: JSON（前端轮询用）
+        - progress-sse: Servlet 3.0 AsyncContext + ScheduledExecutorService + SSE 心跳
+    -->
+    <!--
+        继承 struts-default；json result-type 在本包内显式声明（不依赖 struts2-json-plugin
+        在测试环境下被自动发现——StrutsJUnit4TestCase 不扫 struts-plugin.xml）。
+        生产环境由 struts2-json-plugin 的 struts-plugin.xml 提供同名注册，行为一致。
+    -->
+    <package name="demo35" namespace="/async" extends="struts-default">
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+
+        <!-- 长任务 Action：execAndWait 拦截器（Struts 7.x 改名为 camelCase；旧名 executeAndWait 已移除） -->
+        <action name="long-task" class="com.example.learn.struts2.demo35.LongTaskAction">
+            <interceptor-ref name="execAndWait">
+                <param name="delay">100ms</param>
+                <param name="delaySleepInterval">50</param>
+            </interceptor-ref>
+            <result name="wait">/WEB-INF/content/wait.jsp</result>
+            <result name="success">/WEB-INF/content/result.jsp</result>
+        </action>
+
+        <!-- AJAX 入口：创建任务并立即返回 JSON taskId -->
+        <action name="task-create" class="com.example.learn.struts2.demo35.TaskCreateAction">
+            <result type="json">
+                <param name="includeProperties">taskId</param>
+            </result>
+        </action>
+
+        <!-- 进度查询：JSON（前端轮询用） -->
+        <action name="progress" class="com.example.learn.struts2.demo35.ProgressAction">
+            <result type="json">
+                <param name="includeProperties">progress,complete,result</param>
+            </result>
+        </action>
+
+        <!-- SSE 实时进度推送 -->
+        <action name="progress-sse" class="com.example.learn.struts2.demo35.ProgressSSEAction"/>
+    </package>
+</struts>

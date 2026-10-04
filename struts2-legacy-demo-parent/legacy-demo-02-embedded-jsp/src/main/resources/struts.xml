@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        注册嵌入式 JSP Result 类型。
+        embeddedJsp Result 由 struts2-embedded-jsp-plugin 提供
+        （类 org.apache.struts2.result.EmbeddedJspResult），
+        它会把 JSP 编译成 class 并执行，无需 Servlet 容器参与 JSP 编译。
+    -->
+    <package name="legacy02-embeddedjsp" namespace="/" extends="struts-default">
+        <result-types>
+            <result-type name="embeddedJsp"
+                         class="org.apache.struts2.result.EmbeddedJspResult"/>
+        </result-types>
+
+        <action name="hello" class="com.example.learn.struts2.legacy02.HelloAction">
+            <!-- type="embeddedJsp" 表示用嵌入式 JSP 引擎渲染 /hello.jsp -->
+            <result name="success" type="embeddedJsp">/hello.jsp</result>
+        </action>
+    </package>
+</struts>

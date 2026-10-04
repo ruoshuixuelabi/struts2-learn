@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        demo-33: JasperReports 插件演示
+        - 继承 jasperreports-default 才能用 jasper result
+        - jasper result 通过 net.sf.jasperreports.engine.util.JRLoader.loadObject(File) 加载模板，
+          只认 .jasper 二进制格式；.jrxml 必须预先编译。
+        - 本 demo 在 UserReportAction 类的 static block 中调用
+          JasperReportsPrecompiler.ensureCompiled() + overwriteClasspathJasper()，
+          把 classpath:/jasper/user-list.jrxml 替换为编译后的 .jasper 二进制内容（仅 user-list.jrxml）。
+    -->
+    <package name="demo33" namespace="/report" extends="jasperreports-default">
+        <result-types>
+            <result-type name="noop" class="com.example.learn.struts2.demo33.NoOpResult"/>
+        </result-types>
+
+        <action name="user-list" class="com.example.learn.struts2.demo33.UserReportAction">
+            <result type="jasper" name="success">
+                <param name="location">/jasper/user-list.jrxml</param>
+                <param name="dataSource">users</param>
+                <param name="format">PDF</param>
+            </result>
+            <result type="jasper" name="xls">
+                <param name="location">/jasper/user-list.jrxml</param>
+                <param name="dataSource">users</param>
+                <param name="format">XLS</param>
+            </result>
+            <result type="jasper" name="html">
+                <param name="location">/jasper/user-list.jrxml</param>
+                <param name="dataSource">users</param>
+                <param name="format">HTML</param>
+            </result>
+        </action>
+
+        <!-- 运行时编译 jrxml：Action 暴露 getJasperPrint()。
+         注意：Struts jasper result 总是走 JRLoader.loadObject(location)，
+         与 DynamicReportAction 的"Action 内部 compile → jasperPrint"模式不兼容。
+         这里用自定义 noop result 让测试只校验 action 自身行为。
+         生产场景可换回 jasper result + 预编译 .jasper 文件。 -->
+        <action name="dynamic" class="com.example.learn.struts2.demo33.DynamicReportAction">
+            <result type="noop"/>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.example.learn</groupId>
+        <artifactId>struts1-demo-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>struts1-demo-02-actionform</artifactId>
+    <packaging>war</packaging>
+
+    <properties>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- Struts 1 核心坐标：注意 artifactId 是 struts（不带 2） -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts</artifactId>
+        </dependency>
+        <!--
+            Servlet API 2.5: javax.servlet:servlet-api 在 Maven Central 不存在。
+            实际可用 artifact：
+            方案 A：org.jboss.spec.javax.servlet:jboss-servlet-api_2.5_spec
+            方案 B：org.mortbay.jetty:servlet-api-2.5
+            方案 C：<scope>system</scope> + 指向本地 servlet-api.jar
+            本 demo 采用方案 A（JBoss 规范包，repository 已在父 POM 中加 jboss）
+        -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_2.5_spec</artifactId>
+            <version>1.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- JSP API 2.1：同样用 JBoss 规范包 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+            <artifactId>jboss-jsp-api_2.1_spec</artifactId>
+            <version>1.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

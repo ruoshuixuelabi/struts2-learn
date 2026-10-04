@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        引入 struts2-dwr-plugin 自带的 struts-default + dwr-default 包，
+        dwr-default 中注册了 type="dxr" 的 Result。
+    -->
+    <package name="legacy07" namespace="/" extends="struts-default,dwr-default">
+        <action name="greet" class="com.example.learn.struts2.legacy07.GreetAction">
+            <!-- 普通 Result（DWR 不参与，仅走 JSP 渲染） -->
+            <result name="success">/greet.jsp</result>
+            <!--
+                DWR 暴露：访问 /dwr/interface/Greet.js 时 DWR 会返回
+                GreetAction 的 getMessage / getName 等属性作为 JS 远程对象。
+                (本 result 配置仅展示 dxr result type 的存在；实际暴露由
+                 dwr.xml + DWR servlet 控制。)
+            -->
+        </action>
+    </package>
+</struts>

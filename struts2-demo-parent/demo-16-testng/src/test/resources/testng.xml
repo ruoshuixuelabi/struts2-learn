@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Struts2 TestNG Suite">
+    <test name="CalcActionTests">
+        <classes>
+            <class name="com.example.learn.struts2.demo16.CalcActionTest"/>
+        </classes>
+    </test>
+</suite>

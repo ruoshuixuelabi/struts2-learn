@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC
+        "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+        "http://getahead.org/dwr/dwr20.dtd">
+<dwr>
+    <allow>
+        <!--
+            struts2-dwr-plugin 自带 creator="struts2" 的 creator 类，
+            可以从 Struts 容器获取 Action 实例。JS 通过
+                Greeter.greet(name, callback);
+            直接调用 GreetService.greet(String)。
+        -->
+        <create creator="struts2" javascript="Greeter">
+            <param name="beanName" value="greet"/>
+            <param name="location" value="com.example.learn.struts2.legacy07.GreetAction"/>
+            <include method="hello"/>
+        </create>
+
+        <!--
+            直接 new 一个 service（new creator），把 GreetService 的
+            public 方法暴露给前端。
+        -->
+        <create creator="new" javascript="GreeterService">
+            <param name="class" value="com.example.learn.struts2.legacy07.GreetService"/>
+            <include method="greet"/>
+            <include method="add"/>
+        </create>
+
+        <!-- POJO / DTO 一般允许转换 -->
+        <convert converter="bean" match="java.lang.*"/>
+    </allow>
+</dwr>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.learn</groupId>
+    <artifactId>struts1-demo-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Struts 1.3.10 Demo Parent</name>
+    <description>Struts 1.3.10 demo 父项目（JDK 5/6 + javax.servlet 2.5），用于理解 Struts 历史和 ActionForm 模式</description>
+
+    <properties>
+        <struts1.version>1.3.10</struts1.version>
+        <javax.servlet.version>2.5</javax.servlet.version>
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Struts 1.x：groupId 是 org.apache.struts，artifactId 是 struts -->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts</artifactId>
+                <version>${struts1.version}</version>
+            </dependency>
+            <!-- struts-taglib 已包含在 struts:1.3.10 主包中，无需单独声明（引入两次会冲突） -->
+            <!--
+                Servlet API 2.5：javax.servlet:servlet-api 在 Maven Central 不存在。
+                用 JBoss 规范包（org.jboss.spec.javax.servlet）。
+            -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.servlet</groupId>
+                <artifactId>jboss-servlet-api_2.5_spec</artifactId>
+                <version>1.0.1.Final</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- JSP 2.1（Java EE 5 时代，对应 Struts 1.3.x），同样用 JBoss 规范包 -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+                <artifactId>jboss-jsp-api_2.1_spec</artifactId>
+                <version>1.0.1.Final</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <!-- JBoss 仓库（Servlet 2.5 / JSP 2.1 规范包来源） -->
+        <repository>
+            <id>jboss-public-repository</id>
+            <name>JBoss Public Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="FacetManager">
+    <facet type="Struts2" name="Struts 2">
+      <configuration>
+        <propertiesKeys disabled="false" />
+      </configuration>
+    </facet>
+  </component>
+</module>

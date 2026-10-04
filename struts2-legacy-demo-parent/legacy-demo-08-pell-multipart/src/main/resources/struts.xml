@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        struts.multipart.parser=pell 切换 Struts 2 的 multipart 解析器为 Pell。
+        默认 jakarta-stream（基于 Servlet 3.0 Part API），
+        旧项目常用 pell / cos / jakarta-commons 三选一。
+    -->
+    <constant name="struts.multipart.parser" value="pell"/>
+    <constant name="struts.multipart.maxSize" value="10485760"/>
+
+    <package name="legacy08" namespace="/" extends="struts-default">
+        <action name="upload" class="com.example.learn.struts2.legacy08.UploadAction">
+            <result name="input">/form.jsp</result>
+            <result name="success">/success.jsp</result>
+        </action>
+    </package>
+</struts>

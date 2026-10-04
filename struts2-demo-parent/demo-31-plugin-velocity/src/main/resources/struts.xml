@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+
+<struts>
+    <package name="velocity-demo" namespace="/" extends="velocity-default">
+
+        <action name="user-list" class="com.example.learn.struts2.demo31.UserListAction" method="list">
+            <result type="velocity">/WEB-INF/vm/hello.vm</result>
+        </action>
+
+        <action name="email-preview" class="com.example.learn.struts2.demo31.EmailPreviewAction" method="preview">
+            <result type="velocity">/WEB-INF/vm/email-template.vm</result>
+        </action>
+    </package>
+</struts>

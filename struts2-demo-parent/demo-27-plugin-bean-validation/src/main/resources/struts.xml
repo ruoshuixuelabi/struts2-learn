@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+
+<struts>
+    <!--
+        Bean Validation 插件（struts2-bean-validation-plugin）的 struts-plugin.xml
+        在测试模式下被 StrutsJUnit5Test 自动加载（通过 plugin 扫描 + reload），
+        已注册 BeanValidationManager/Interceptor。BeanValidationInterceptor
+        必须在 workflow 之前，否则 validation 失败时 workflow 不知道 Action 已经 invalid。
+    -->
+
+    <!-- Struts 2.7+ 默认 requireAnnotations=true，所有 setter 必须显式 @StrutsParameter 才注入。
+         本 demo 用传统 setter 风格（username / email / nestedUser 等），关闭校验才能正常注入。 -->
+    <constant name="struts.parameters.requireAnnotations" value="false"/>
+
+    <package name="bean-validation" namespace="/bean-validation" extends="struts-default">
+        <interceptors>
+            <interceptor name="beanValidation"
+                         class="org.apache.struts.beanvalidation.validation.interceptor.BeanValidationInterceptor"/>
+            <interceptor-stack name="beanValidationStack">
+                <!-- 在 struts-default 的 defaultStack 基础上，插入 beanValidation 在 validation 之前 -->
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="beanValidation"/>
+                <interceptor-ref name="validation">
+                    <param name="validateAnnotatedMethodOnly">true</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="beanValidationStack"/>
+
+        <action name="save" class="com.example.learn.struts2.demo27.UserAction" method="save">
+            <result name="input">/form.jsp</result>
+            <result name="success">/success.jsp</result>
+        </action>
+    </package>
+</struts>

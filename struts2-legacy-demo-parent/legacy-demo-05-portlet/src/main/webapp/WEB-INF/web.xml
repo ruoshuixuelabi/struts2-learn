@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <!--
+        Portlet 模式部署：struts2-portlet-plugin 的入口。
+        Portlet 容器会调用这个 Servlet 来处理 render / action / resource 请求。
+    -->
+    <servlet>
+        <servlet-name>StrutsPortletServlet</servlet-name>
+        <servlet-class>org.apache.struts2.portlet.dispatcher.Jsr168DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StrutsPortletServlet</servlet-name>
+        <url-pattern>/struts-portlet/*</url-pattern>
+    </servlet-mapping>
+
+    <!--
+        同样注册 Struts 2 主过滤器（许多 Portlet 容器也需要 Servlet API）。
+    -->
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+</web-app>

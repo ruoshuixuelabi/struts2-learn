@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!-- demo-18 用到 struts2-bean-validation-plugin：BeanValidationManager bean 和
+         beanValidation 拦截器都由 struts-plugin.xml 提供。本模块只需引用，不重复注册。 -->
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <interceptors>
+            <!-- 显式声明 beanValidation 拦截器（struts-plugin.xml 也声明了同名拦截器，
+                 但本 demo 在测试模式下由 StrutsJUnit5Test.loadAllStrutsPluginXmls() 加载的 plugin xml
+                 与 dispatcherInitParams 中"struts-default.xml,struts-plugin.xml,struts.xml"配置存在
+                 reload 时机差异，保守起见本模块再次声明，避免 interceptor-ref 找不到 ref-name）。 -->
+            <interceptor name="beanValidation"
+                         class="org.apache.struts.beanvalidation.validation.interceptor.BeanValidationInterceptor"/>
+            <!-- 自定义拦截器栈：复用 defaultStack 的拦截器，但在 workflow 之前插入 beanValidation。
+                 workflow 在前面检查 errors 时会触发 input result；beanValidation 在前先加 errors。
+                 这就是 beanValidationDefaultStack 的设计思想。 -->
+            <interceptor-stack name="userValidationStack">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="datetime"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="params"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="httpMethod"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="actionFileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="beanValidation"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <!-- JSR-303 注解校验（@Email/@Min/@Max 等） -->
+        <action name="user-save" class="com.example.learn.struts2.demo18.UserAction" method="save">
+            <interceptor-ref name="userValidationStack"/>
+            <result name="success">/user-result.jsp</result>
+            <result name="input">/user-form.jsp</result>
+        </action>
+
+        <!-- Struts 内置注解校验（@RequiredStringValidator 等，defaultStack 自带 validation） -->
+        <action name="person-save" class="com.example.learn.struts2.demo18.PersonAction" method="save">
+            <result name="success">/user-result.jsp</result>
+            <result name="input">/person-form.jsp</result>
+        </action>
+    </package>
+</struts>

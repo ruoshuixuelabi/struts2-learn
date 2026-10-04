@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!-- 启用动态方法调用（!edit.action） -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+        <!-- 扩展默认允许的方法列表（加上 edit / check 给 demo 用） -->
+        <global-allowed-methods>execute,input,back,cancel,browse,save,delete,list,index,edit,check</global-allowed-methods>
+
+        <!-- Preparable（prepare 钩子） -->
+        <action name="preparable" class="com.example.learn.struts2.demo13.PreparableAction">
+            <!-- paramsPrepareParamsStack：params→prepare→params，prepare() 里能拿到 id -->
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success">/preparable-edit.jsp</result>
+        </action>
+
+        <!-- ModelDriven（参数绑定到 model） -->
+        <action name="model-driven" class="com.example.learn.struts2.demo13.ModelDrivenAction">
+            <result name="success">/model-driven.jsp</result>
+        </action>
+
+        <!-- ValidationAware（addFieldError） -->
+        <action name="validation-aware" class="com.example.learn.struts2.demo13.ValidationAwareAction">
+            <result name="success">/validation.jsp</result>
+            <result name="input">/validation.jsp</result>
+        </action>
+
+    </package>
+</struts>

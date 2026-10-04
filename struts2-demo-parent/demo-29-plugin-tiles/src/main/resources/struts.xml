@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+
+<struts>
+    <package name="tiles-demo" namespace="/" extends="struts-default">
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+        </result-types>
+
+        <action name="home" class="com.example.learn.struts2.demo29.HomeAction">
+            <!-- 测试环境无 Tiles 容器（需要 servlet 监听器初始化 TilesApplicationContext），
+                 用 dispatcher 替代（forward 到 home.jsp）；生产 mvn jetty:run 会用 tiles result。
+                 两条 result 都配置，按 result 名匹配，测试只跑 dispatcher。 -->
+            <result name="success" type="dispatcher">/WEB-INF/home/home.jsp</result>
+            <result name="success-tiles" type="tiles">home.tiles</result>
+        </action>
+
+        <action name="user-list" class="com.example.learn.struts2.demo29.UserListAction" method="list">
+            <result name="success" type="dispatcher">/WEB-INF/user/list.jsp</result>
+            <result name="success-tiles" type="tiles">user.list.tiles</result>
+        </action>
+    </package>
+</struts>

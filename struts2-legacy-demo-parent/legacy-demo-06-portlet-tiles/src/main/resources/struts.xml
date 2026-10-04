@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        继承 struts-default + tiles-default。
+        Portlet 模式下，容器（Pluto/Liferay）会额外注册 portlet-default 包；
+        常规 Servlet 模式下仅继承 struts-default + tiles-default 即可。
+    -->
+    <package name="legacy06" namespace="/" extends="struts-default,tiles-default">
+        <action name="page" class="com.example.learn.struts2.legacy06.PageAction">
+            <result name="success" type="tiles">portal.page</result>
+        </action>
+    </package>
+</struts>

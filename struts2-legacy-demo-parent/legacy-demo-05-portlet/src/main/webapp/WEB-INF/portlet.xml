@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
+             http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             version="2.0">
+
+    <!--
+        JSR-286 Portlet 定义。
+        Struts2 实际处理的 URL 是 StrutsPortletServlet 映射的 /struts-portlet/*，
+        portlet.xml 中的 servlet-url 指到那里。
+    -->
+    <portlet>
+        <portlet-name>struts2-portlet</portlet-name>
+        <portlet-class>org.apache.struts2.portlet.dispatcher.Jsr168Dispatcher</portlet-class>
+        <init-param>
+            <name>portletNamespace</name>
+            <value>/sample</value>
+        </init-param>
+        <init-param>
+            <name>defaultViewAction</name>
+            <value>portlet-hello</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>VIEW</portlet-mode>
+            <portlet-mode>EDIT</portlet-mode>
+            <portlet-mode>HELP</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Struts 2 Sample Portlet</title>
+            <short-title>Struts2</short-title>
+        </portlet-info>
+    </portlet>
+</portlet-app>

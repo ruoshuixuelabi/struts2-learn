@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <package name="default" namespace="/" extends="struts-default">
+        <interceptors>
+            <interceptor name="log" class="com.example.learn.struts2.demo05.LogInterceptor"/>
+            <interceptor name="auth" class="com.example.learn.struts2.demo05.AuthInterceptor"/>
+
+            <!-- 拦截器栈组合：log -> auth -> defaultStack -->
+            <interceptor-stack name="authStack">
+                <interceptor-ref name="log"/>
+                <interceptor-ref name="auth">
+                    <param name="includeMethods">add,update,delete</param>
+                    <param name="excludeMethods">list,view</param>
+                    <param name="requiredRole">admin</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="authStack"/>
+
+        <!-- 全局 result：必须在 action* 之前（Struts DTD 顺序约束） -->
+        <global-results>
+            <result name="login">/login.jsp</result>
+            <result name="forbidden">/forbidden.jsp</result>
+        </global-results>
+
+        <action name="user-list" class="com.example.learn.struts2.demo05.UserAction" method="list">
+            <result>/list.jsp</result>
+        </action>
+        <action name="user-view" class="com.example.learn.struts2.demo05.UserAction" method="view">
+            <result>/view.jsp</result>
+        </action>
+        <action name="user-add" class="com.example.learn.struts2.demo05.UserAction" method="add">
+            <result name="success">/list.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="user-update" class="com.example.learn.struts2.demo05.UserAction" method="update">
+            <result name="success">/list.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="user-delete" class="com.example.learn.struts2.demo05.UserAction" method="delete">
+            <result name="success">/list.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+    </package>
+</struts>

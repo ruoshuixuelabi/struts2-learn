@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        demo-32: Javatemplates 插件演示
+        - 用 javanano / plainText result，零 JSP
+        - 模板字符串直接由 Action.getTemplate() 返回
+    -->
+    <package name="demo32" namespace="/javatemplates" extends="struts-default">
+        <!--
+            Struts 7.x 已经移除 javanano result type。
+            我们用 plainText result（核心自带）替代——它直接把属性值当作响应体写出，
+            同样能实现"零 JSP"渲染：Action.getTemplate() 返回 HTML 字符串。
+        -->
+        <action name="plain" class="com.example.learn.struts2.demo32.JavatemplatesAction">
+            <result type="plainText">template</result>
+        </action>
+    </package>
+</struts>

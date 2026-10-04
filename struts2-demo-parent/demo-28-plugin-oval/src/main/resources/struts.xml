@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+
+<struts>
+    <!--
+        struts2-oval-plugin:6.10.0 的内置 OValValidationInterceptor 继承自
+        com.opensymphony.xwork2.interceptor.MethodFilterInterceptor，Struts 7.x 已移除该父类。
+        这里直接用本 demo 自带的 com.example.learn.struts2.demo28.OValValidationInterceptor：
+        不依赖 struts2-oval-plugin，只依赖 net.sf.oval:oval 库。
+    -->
+    <constant name="struts.parameters.requireAnnotations" value="false"/>
+    <package name="oval" namespace="/oval" extends="struts-default">
+        <interceptors>
+            <interceptor name="ovalValidation" class="com.example.learn.struts2.demo28.OValValidationInterceptor"/>
+
+            <interceptor-stack name="ovalValidationStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="ovalValidation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="ovalValidationStack"/>
+
+        <action name="save" class="com.example.learn.struts2.demo28.UserAction" method="save">
+            <result name="input">/form.jsp</result>
+            <result name="success">/success.jsp</result>
+        </action>
+    </package>
+</struts>

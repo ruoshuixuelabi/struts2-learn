@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <package name="demo02" namespace="/" extends="struts-default">
+        <action name="pojo" class="com.example.learn.struts2.demo02.PojoAction">
+            <result>/pojo-result.jsp</result>
+        </action>
+        <action name="interface" class="com.example.learn.struts2.demo02.InterfaceAction">
+            <result>/interface-result.jsp</result>
+        </action>
+        <!-- AnnotationAction 由 Convention 插件自动注册，无需在此声明 -->
+    </package>
+</struts>

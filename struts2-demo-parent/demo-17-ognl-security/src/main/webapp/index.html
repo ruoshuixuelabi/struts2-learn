@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Demo 17: OGNL Security</h1>
+<ul>
+    <li><a href="profile.action?username=alice&amp;email=alice@example.com">安全调用示例</a></li>
+    <li><a href="profile.action?username=alice&amp;cmd=%40java.lang.Runtime%40getRuntime().exec('id')">危险调用示例（应被拦截）</a></li>
+</ul>
+</body>
+</html>

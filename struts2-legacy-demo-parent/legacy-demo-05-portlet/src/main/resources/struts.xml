@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        Portlet 配置示例：
+        PortletAction 必须配置 default-interceptor-ref = portletStack，
+        因为 Portlet 环境不能使用 Servlet API。
+    -->
+    <package name="legacy05-portlet" namespace="/sample"
+             extends="struts-default">
+
+        <!-- 普通 Action 示例（HelloAction） -->
+        <action name="hello" class="com.example.learn.struts2.legacy05.HelloAction">
+            <result name="success">/hello.jsp</result>
+        </action>
+
+        <!-- PortletAction 示例（HelloPortletAction） -->
+        <action name="portlet-hello"
+                class="com.example.learn.struts2.legacy05.HelloPortletAction">
+            <interceptor-ref name="portletStack"/>
+            <!-- render 阶段默认入口，配置到默认 Result -->
+            <result name="success">/portlet-view.jsp</result>
+        </action>
+    </package>
+</struts>

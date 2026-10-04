@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="demo-18-validation-annotation" />
+        <module name="demo-30-plugin-sitemesh" />
+        <module name="demo-34-plugin-jfreechart" />
+        <module name="demo-01-helloworld" />
+        <module name="demo-22-plugin-json" />
+        <module name="demo-09-i18n" />
+        <module name="demo-20-security" />
+        <module name="demo-03-arch-lifecycle" />
+        <module name="demo-13-action-advanced" />
+        <module name="demo-05-interceptor-advanced" />
+        <module name="demo-29-plugin-tiles" />
+        <module name="struts2-1" />
+        <module name="demo-04-interceptor" />
+        <module name="demo-16-testng" />
+        <module name="demo-26-plugin-testng" />
+        <module name="demo-11-upload" />
+        <module name="demo-27-plugin-bean-validation" />
+        <module name="demo-25-plugin-junit" />
+        <module name="demo-19-spring-plugin" />
+        <module name="demo-06-valuestack" />
+        <module name="demo-07-ognl" />
+        <module name="demo-10-exception" />
+        <module name="demo-17-ognl-security" />
+        <module name="demo-31-plugin-velocity" />
+        <module name="demo-08-strutstag" />
+        <module name="demo-35-plugin-async" />
+        <module name="demo-33-plugin-jasperreports" />
+        <module name="demo-23-plugin-rest" />
+        <module name="demo-02-action-three-ways" />
+        <module name="demo-15-junit" />
+        <module name="struts2-demo-test-support" />
+        <module name="demo-24-plugin-cdi" />
+        <module name="demo-14-validation" />
+        <module name="demo-12-result" />
+        <module name="demo-28-plugin-oval" />
+        <module name="demo-32-plugin-javatemplates" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

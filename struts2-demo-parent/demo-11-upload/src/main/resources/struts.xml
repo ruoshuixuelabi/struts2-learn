@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+
+    <!-- 全局上传限制：10MB、白名单 MIME -->
+    <constant name="struts.actionFileUpload.maxSize" value="10485760"/>
+    <constant name="struts.actionFileUpload.allowedTypes"
+              value="image/jpeg,image/png,application/pdf,text/plain"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <!-- 上传 Action：使用 7.x 推荐的新拦截器 actionFileUpload -->
+        <action name="upload" class="com.example.learn.struts2.demo11.UploadAction">
+            <interceptor-ref name="actionFileUpload">
+                <param name="maximumSize">5242880</param>           <!-- 5MB per file -->
+                <param name="allowedTypes">image/jpeg,image/png,application/pdf,text/plain</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="success">/upload-success.jsp</result>
+            <result name="input">/upload-error.jsp</result>
+        </action>
+
+        <!-- 下载 Action：stream ResultType -->
+        <action name="download" class="com.example.learn.struts2.demo11.DownloadAction">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+    </package>
+</struts>

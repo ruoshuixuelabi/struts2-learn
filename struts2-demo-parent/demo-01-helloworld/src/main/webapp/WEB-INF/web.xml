@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+    <display-name>Demo 01: Hello World</display-name>
+    <!--
+    <filter>
+    — 定义一个 Servlet 过滤器（Filter）。
+    — 过滤器可以在请求到达 Servlet 之前、响应返回客户端之前，
+      对请求/响应进行拦截和处理（如编码设置、登录验证、日志记录等）。
+-->
+    <filter>
+        <!--
+    <filter-name>
+    — 过滤器的唯一标识名，自定义即可。
+    — 后续 <filter-mapping> 会通过这个名字来引用它。
+-->
+        <filter-name>struts2</filter-name>
+        <!--
+    <filter-class>
+    — 过滤器的完整类路径（全限定类名）。
+    — 这里是 Struts2 框架的核心过滤器：
+      StrutsPrepareAndExecuteFilter
+      它会拦截所有请求，并根据 struts.xml 中的配置进行路由分发。
+    — 注意：Tomcat 11 + Servlet 6.0 要求使用 jakarta 命名空间，
+      所以这里的 Struts2 版本必须是支持 Jakarta EE 的版本
+      （如 Struts 6.x），否则会报 ClassNotFoundException。
+-->
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+    <!--
+    <filter-mapping>
+    — 将上面定义的过滤器与具体的 URL 模式进行绑定。
+    — 告诉容器：哪些请求需要经过这个过滤器处理。
+-->
+    <filter-mapping>
+        <!-- 引用上面定义的过滤器名称，必须完全一致 -->
+        <filter-name>struts2</filter-name>
+        <!--
+    <url-pattern>
+    — 过滤器拦截的 URL 匹配规则。
+    — "/*" 表示拦截所有请求（包括静态资源如 .css、.js、.jpg）。
+    — 其他常见写法：
+        "/action/*"  — 只拦截 /action/ 路径下的请求
+        "*.action"   — 只拦截以 .action 结尾的请求
+-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+</web-app>

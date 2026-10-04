@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+        Struts 2.5 时代的 Portlet 桥接监听器（pluto / jetspeed 容器使用）：
+        javax.portlet.PortletContextListener  由 portlet-container 提供，
+        部署到 Liferay / WebSphere Portal 时 portal 容器会替换此 web.xml。
+        此处仅保留为"配置示例"。
+    -->
+    <listener>
+        <listener-class>org.apache.struts2.portlet.dispatcher.Jsr168Dispatcher</listener-class>
+    </listener>
+</web-app>

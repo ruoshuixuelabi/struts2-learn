@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo 35 - Async</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; max-width: 900px; margin: 2em auto; }
+        pre  { background: #f5f5f5; padding: 1em; border-radius: 6px; }
+        .bar { background: #eee; border-radius: 4px; height: 24px; position: relative; overflow: hidden; }
+        .bar > span { background: linear-gradient(90deg, #36c, #6cf); display: block; height: 100%; transition: width .2s; }
+    </style>
+</head>
+<body>
+    <h1>Demo 35: Async 插件（异步 Action）</h1>
+    <p>本 demo 演示三种异步模式：</p>
+    <ol>
+        <li><a href="async/long-task.action"><strong>executeAndWait + 等待页 meta refresh</strong></a>（最长约 2 秒）</li>
+        <li><strong>AJAX 创建任务 + SSE 实时进度推送</strong>（下方按钮触发）</li>
+        <li><a href="async/progress.action?taskId=demo"><strong>JSON 进度查询</strong></a>（前端轮询用，无 taskId 时返回 progress=0）</li>
+    </ol>
+
+    <h2>SSE 实时推送演示</h2>
+    <button id="btn">启动 SSE 长任务</button>
+    <p>任务进度：<span id="pct">0</span>%</p>
+    <div class="bar"><span id="bar" style="width:0%"></span></div>
+    <pre id="log"></pre>
+
+    <script>
+        const btn = document.getElementById('btn');
+        const pct = document.getElementById('pct');
+        const bar = document.getElementById('bar');
+        const log = document.getElementById('log');
+
+        btn.addEventListener('click', async () => {
+            btn.disabled = true;
+            log.textContent = '';
+
+            // 1. AJAX 创建任务，拿到 taskId（不再 regex 解析 HTML）
+            let taskId;
+            try {
+                const r = await fetch('async/task-create.action');
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                const data = await r.json();
+                taskId = data.taskId;
+            } catch (err) {
+                log.textContent = '创建任务失败: ' + err.message;
+                btn.disabled = false;
+                return;
+            }
+            log.textContent += 'TaskId = ' + taskId + '\n';
+
+            // 2. 订阅 SSE
+            const es = new EventSource('async/progress-sse.action?taskId=' + encodeURIComponent(taskId));
+            es.addEventListener('progress', e => {
+                const v = parseInt(e.data, 10);
+                pct.textContent = v;
+                bar.style.width = v + '%';
+            });
+            es.addEventListener('done', e => {
+                log.textContent += 'done: ' + e.data + '\n';
+                es.close();
+                btn.disabled = false;
+            });
+            es.onerror = () => { es.close(); btn.disabled = false; };
+        });
+    </script>
+</body>
+</html>

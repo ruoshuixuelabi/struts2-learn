@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!--
+        经典门户布局：header + body + footer。
+        Tiles 3.x 引入 preparer / inheritance 等增强能力，
+        Portlet 容器中每个 Portlet 都可以引用一个 Tile definition。
+    -->
+    <definition name="portal.page" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/>
+        <put-attribute name="body"   value="/WEB-INF/tiles/body.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/>
+    </definition>
+</tiles-definitions>

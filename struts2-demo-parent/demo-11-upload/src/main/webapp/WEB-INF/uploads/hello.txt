@@ -1,0 +1,3 @@
+Hello from demo-11-upload!
+This file is served by the DownloadAction through the stream Result.
+Try changing the fileName parameter in the URL: ?fileName=hello.txt

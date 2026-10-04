@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        注意：struts2-rest-plugin 把 struts.mapper.class 强制改成 "rest"（RestfulActionMapper）。
+        RestfulActionMapper 不支持 "!" method prefix（它用 HTTP method 区分 index/show/create/update/destroy）。
+        所以这里不能设 struts.mapper.action.prefix="!"。
+        测试中通过 allowed-methods 让 method 被显式调用，
+        RestfulActionMapper 内部会把 URL 后缀的 method（如果有）解析为 method 名。
+    -->
+
+    <package name="default" namespace="/" extends="rest-default,json-default">
+        <action name="users" class="com.example.learn.struts2.demo23.UserResourceAction">
+            <result name="success" type="json">
+                <!-- success 返回的 GET 列表走 users 字段 -->
+                <param name="root">users</param>
+                <!-- 排除 Action 自身的 lastResult 等字段 -->
+                <param name="excludeProperties">lastResult</param>
+            </result>
+            <result name="create" type="json">
+                <param name="root">lastResult</param>
+            </result>
+            <result name="destroy" type="json">
+                <param name="root">lastResult</param>
+            </result>
+            <!-- 允许调用的方法（必须显式声明，避免开放任意方法） -->
+            <allowed-methods>index,show,create,update,destroy,execute</allowed-methods>
+        </action>
+    </package>
+</struts>

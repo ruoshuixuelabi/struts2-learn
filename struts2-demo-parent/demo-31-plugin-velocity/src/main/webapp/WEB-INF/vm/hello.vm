@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>用户列表</title>
+</head>
+<body>
+    <h1>用户列表（Velocity 模板）</h1>
+
+    #if($users.size() == 0)
+        <p>暂无用户</p>
+    #else
+        <ul>
+        #foreach($u in $users)
+            <li>
+                $u.username - $u.email
+                #if($u.vip)
+                    <strong>[VIP]</strong>
+                #end
+            </li>
+        #end
+        </ul>
+    #end
+</body>
+</html>

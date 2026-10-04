@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <!--
+        Plexus 集成：constant 切换 Struts 的 ObjectFactory 到 PlexusObjectFactory。
+        Plexus 容器扫描 META-INF/plexus/components.xml 中的组件定义。
+    -->
+    <constant name="struts.objectFactory"
+              value="org.apache.struts2.plexus.PlexusObjectFactory"/>
+
+    <package name="legacy04-plexus" namespace="/" extends="struts-default">
+        <action name="hello" class="com.example.learn.struts2.legacy04.HelloAction">
+            <result name="success">/hello.jsp</result>
+        </action>
+    </package>
+</struts>

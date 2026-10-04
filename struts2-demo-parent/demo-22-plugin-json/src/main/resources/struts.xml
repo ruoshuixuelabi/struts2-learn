@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!-- JSON 插件必须继承 json-default（不是 struts-default） -->
+    <package name="default" namespace="/" extends="json-default">
+        <action name="user-api" class="com.example.learn.struts2.demo22.UserAction">
+            <result type="json">
+                <!-- root 指定序列化根对象（默认 = Action 本身） -->
+                <param name="root">user</param>
+                <!-- excludeProperties 排除敏感字段（正则匹配） -->
+                <param name="excludeProperties">user.password</param>
+            </result>
+        </action>
+    </package>
+</struts>

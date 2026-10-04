@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!-- 全局资源文件 basename（不带 .properties 后缀） -->
+    <constant name="struts.custom.i18n.resources" value="globalMessages"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+        <!-- 主页面：getText() + <s:text> 演示 -->
+        <action name="hello" class="com.example.learn.struts2.demo09.I18nAction">
+            <result>/hello.jsp</result>
+        </action>
+
+        <!-- 语言切换：i18n 拦截器自动读取 request_locale 参数 -->
+        <action name="locale" class="com.example.learn.struts2.demo09.LocaleAction">
+            <result type="redirectAction">hello</result>
+        </action>
+    </package>
+</struts>

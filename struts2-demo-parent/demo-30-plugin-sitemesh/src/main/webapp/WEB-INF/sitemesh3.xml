@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <!-- 所有 JSP 页面默认用 main.jsp 装饰 -->
+    <mapping path="/*" decorator="/WEB-INF/decorators/main.jsp"/>
+    <!-- /api/* 路径排除装饰（REST 接口原样输出） -->
+    <mapping path="/api/*" exclude="true"/>
+</sitemesh>

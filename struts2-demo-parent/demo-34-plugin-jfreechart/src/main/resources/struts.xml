@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "https://struts.apache.org/dtds/struts-6.0.dtd">
+<struts>
+    <!--
+        demo-34: JFreeChart 插件演示
+        - 继承 jfreechart-default 才能用 chart result
+        - chart result 自动调用 Action.getChart() 渲染 PNG 流
+    -->
+    <package name="demo34" namespace="/chart" extends="jfreechart-default">
+        <action name="pie" class="com.example.learn.struts2.demo34.SalesPieChartAction">
+            <result type="chart">
+                <param name="width">600</param>
+                <param name="height">400</param>
+            </result>
+        </action>
+
+        <action name="bar" class="com.example.learn.struts2.demo34.SalesBarChartAction">
+            <result type="chart">
+                <param name="width">700</param>
+                <param name="height">450</param>
+            </result>
+        </action>
+
+        <action name="line" class="com.example.learn.struts2.demo34.LineChartAction">
+            <result type="chart">
+                <param name="width">600</param>
+                <param name="height">350</param>
+            </result>
+        </action>
+    </package>
+</struts>
