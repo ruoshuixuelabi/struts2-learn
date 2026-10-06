@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.example.learn</groupId>
+        <artifactId>struts2-demo-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>demo-36-plugin-custom</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Demo 36: Plugin Custom (Aggregator)</name>
+    <description>自定义 Struts 2 Result 插件父模块（聚合 custom-result-plugin）</description>
+
+    <modules>
+        <module>custom-result-plugin</module>
+    </modules>
+</project>

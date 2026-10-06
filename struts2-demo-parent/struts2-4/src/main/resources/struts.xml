@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!-- 打开静态方法掉用的限制 -->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
+    <!-- 修改当前Struts 2应用的主题
+    <constant name="struts.ui.theme" value="simple"></constant> -->
+    <package name="default" namespace="/" extends="struts-default">
+        <!-- 配置全局的result -->
+        <global-results>
+            <result name="input">/input.jsp</result>
+        </global-results>
+        <!-- 配置全局的异常映射 -->
+        <global-exception-mappings>
+            <exception-mapping result="input" exception="java.lang.ArithmeticException"/>
+        </global-exception-mappings>
+        <action name="product-save" class="com.fuxi.struts.valuestack.Product" method="save">
+            <result>/details.jsp</result>
+        </action>
+        <action name="emp-*" class="com.fuxi.struts.valuestack.app.Employee" method="{1}">
+            <result name="{1}">/emp-{1}.jsp</result>
+        </action>
+        <action name="testTag" class="com.fuxi.struts.valuestack.Product" method="testTag">
+            <result>/common-tag.jsp</result>
+        </action>
+        <action name="save" class="com.fuxi.struts.valuestack.UserAction" method="save">
+            <result name="input">/form-tag.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/*
+ * $Id: struts-default.xml 1485719 2013-05-23 14:12:24Z lukaszlenart $
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!-- ========== Bean 配置区域 ========= -->
+    <!-- 对象工厂配置：用于创建和管理Action和其他组件的实例 -->
+    <!-- xwork对象工厂：XWork框架默认的对象工厂实现 -->
+    <bean class="com.opensymphony.xwork2.ObjectFactory" name="xwork" />
+    <!-- struts对象工厂：Struts2框架的对象工厂，继承自XWork对象工厂，提供额外功能 -->
+    <bean type="com.opensymphony.xwork2.ObjectFactory" name="struts" class="org.apache.struts2.impl.StrutsObjectFactory" />
+
+    <!-- 文件管理器配置：用于管理和缓存配置文件，提高性能 -->
+    <!-- system文件管理器：系统级文件管理器，单例模式 -->
+    <bean type="com.opensymphony.xwork2.FileManager" class="com.opensymphony.xwork2.util.fs.DefaultFileManager" name="system" scope="singleton"/>
+
+    <!-- 文件管理器工厂配置：创建文件管理器实例的工厂 -->
+    <!-- xwork文件管理器工厂：XWork框架的文件管理器工厂 -->
+    <bean type="com.opensymphony.xwork2.FileManagerFactory" class="com.opensymphony.xwork2.util.fs.DefaultFileManagerFactory" name="xwork" scope="singleton"/>
+    <!-- struts文件管理器工厂：Struts2框架的文件管理器工厂 -->
+    <bean type="com.opensymphony.xwork2.FileManagerFactory" class="com.opensymphony.xwork2.util.fs.DefaultFileManagerFactory" name="struts" scope="singleton"/>
+
+    <!-- Action 代理工厂配置：创建Action代理对象的工厂，用于执行Action -->
+    <!-- xwork Action代理工厂：XWork框架默认的Action代理工厂 -->
+    <bean type="com.opensymphony.xwork2.ActionProxyFactory" name="xwork" class="com.opensymphony.xwork2.DefaultActionProxyFactory"/>
+    <!-- struts Action代理工厂：Struts2框架的Action代理工厂，提供Struts特定功能 -->
+    <bean type="com.opensymphony.xwork2.ActionProxyFactory" name="struts" class="org.apache.struts2.impl.StrutsActionProxyFactory"/>
+
+    <!-- 类型转换器的对象类型确定器配置：用于确定类型转换时的目标对象类型 -->
+    <!-- tiger类型确定器：支持Java 5+泛型类型确定 -->
+    <bean type="com.opensymphony.xwork2.conversion.ObjectTypeDeterminer" name="tiger" class="com.opensymphony.xwork2.conversion.impl.DefaultObjectTypeDeterminer"/>
+    <!-- notiger类型确定器：不支持泛型的类型确定 -->
+    <bean type="com.opensymphony.xwork2.conversion.ObjectTypeDeterminer" name="notiger" class="com.opensymphony.xwork2.conversion.impl.DefaultObjectTypeDeterminer"/>
+    <!-- struts类型确定器：Struts2默认的类型确定器 -->
+    <bean type="com.opensymphony.xwork2.conversion.ObjectTypeDeterminer" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultObjectTypeDeterminer"/>
+
+    <!-- 模式匹配器配置：支持通配符、命名变量、正则表达式等URL模式匹配方式 -->
+    <!-- struts通配符匹配器：支持*通配符匹配，如action_*匹配action_save、action_update等 -->
+    <bean type="com.opensymphony.xwork2.util.PatternMatcher" name="struts" class="com.opensymphony.xwork2.util.WildcardHelper" />
+    <!-- namedVariable命名变量匹配器：支持{variable}命名变量匹配，如user/{id} -->
+    <bean type="com.opensymphony.xwork2.util.PatternMatcher" name="namedVariable" class="com.opensymphony.xwork2.util.NamedVariablePatternMatcher"/>
+    <!-- regex正则表达式匹配器：支持正则表达式匹配，提供更灵活的模式匹配 -->
+    <bean type="com.opensymphony.xwork2.util.PatternMatcher" name="regex" class="org.apache.struts2.util.RegexPatternMatcher"/>
+
+    <!-- Action 映射器配置：将HTTP请求映射到对应的Action，支持多种映射策略 -->
+    <!-- struts默认映射器：标准的Action映射方式，如/user.action映射到user Action -->
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="struts" class="org.apache.struts2.dispatcher.mapper.DefaultActionMapper" />
+    <!-- composite复合映射器：组合多个映射器，按顺序尝试匹配 -->
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="composite" class="org.apache.struts2.dispatcher.mapper.CompositeActionMapper" />
+    <!-- restful RESTful映射器：支持REST风格的URL映射，如GET /users映射到list方法 -->
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="restful" class="org.apache.struts2.dispatcher.mapper.RestfulActionMapper" />
+    <!-- restful2 RESTful映射器第二种实现：提供不同的REST映射规则 -->
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="restful2" class="org.apache.struts2.dispatcher.mapper.Restful2ActionMapper" />
+
+    <!-- 文件上传请求解析器配置：处理multipart/form-data类型的文件上传请求 -->
+    <!-- struts文件上传解析器：使用Jakarta Commons FileUpload组件解析文件上传 -->
+    <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest" name="struts" class="org.apache.struts2.dispatcher.multipart.JakartaMultiPartRequest" scope="default"/>
+    <!-- jakarta文件上传解析器：明确指定使用Jakarta组件 -->
+    <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest" name="jakarta" class="org.apache.struts2.dispatcher.multipart.JakartaMultiPartRequest" scope="default" />
+    <!-- 设置文件上传解析器为jakarta -->
+    <constant name="struts.multipart.parser" value="jakarta" />
+
+    <!-- 标签库配置：Struts2标签库的定义 -->
+    <!-- s标签库：Struts2的默认标签库前缀，如<s:form>、<s:textfield>等 -->
+    <bean type="org.apache.struts2.views.TagLibrary" name="s" class="org.apache.struts2.views.DefaultTagLibrary" />
+
+    <!-- 模板引擎管理器配置：支持FreeMarker、Velocity、JSP等多种模板引擎 -->
+    <!-- FreeMarker管理器：Struts2的FreeMarker模板引擎管理器 -->
+    <bean class="org.apache.struts2.views.freemarker.FreemarkerManager" name="struts" />
+    <!-- Velocity管理器：Struts2的Velocity模板引擎管理器，optional表示可选 -->
+    <bean class="org.apache.struts2.views.velocity.VelocityManager" name="struts" optional="true" />
+
+    <!-- 模板引擎配置：定义不同模板文件类型对应的引擎 -->
+    <!-- 模板引擎管理器：管理各种模板引擎 -->
+    <bean class="org.apache.struts2.components.template.TemplateEngineManager" />
+    <!-- ftl模板引擎：FreeMarker模板引擎，处理.ftl文件 -->
+    <bean type="org.apache.struts2.components.template.TemplateEngine" name="ftl" class="org.apache.struts2.components.template.FreemarkerTemplateEngine" />
+    <!-- vm模板引擎：Velocity模板引擎，处理.vm文件 -->
+    <bean type="org.apache.struts2.components.template.TemplateEngine" name="vm" class="org.apache.struts2.components.template.VelocityTemplateEngine" />
+    <!-- jsp模板引擎：JSP模板引擎，处理.jsp文件 -->
+    <bean type="org.apache.struts2.components.template.TemplateEngine" name="jsp" class="org.apache.struts2.components.template.JspTemplateEngine" />
+
+    <!-- ========== 类型转换相关配置 ========== -->
+    <!-- 类型转换器核心组件：负责HTTP请求参数到Java对象类型的自动转换 -->
+    <!-- XWork类型转换器：Struts2类型转换的核心实现 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.XWorkConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.XWorkConverter" />
+    <!-- 转换属性处理器：处理属性文件中的类型转换配置 -->
+    <bean type="com.opensymphony.xwork2.conversion.ConversionPropertiesProcessor" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultConversionPropertiesProcessor" />
+    <!-- 转换文件处理器：处理文件类型转换 -->
+    <bean type="com.opensymphony.xwork2.conversion.ConversionFileProcessor" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultConversionFileProcessor" />
+    <!-- 转换注解处理器：处理类型转换相关的注解 -->
+    <bean type="com.opensymphony.xwork2.conversion.ConversionAnnotationProcessor" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultConversionAnnotationProcessor" />
+    <!-- 类型转换器创建器：创建类型转换器实例 -->
+    <bean type="com.opensymphony.xwork2.conversion.TypeConverterCreator" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultTypeConverterCreator" />
+    <!-- 类型转换器持有者：缓存和管理类型转换器实例 -->
+    <bean type="com.opensymphony.xwork2.conversion.TypeConverterHolder" name="struts" class="com.opensymphony.xwork2.conversion.impl.DefaultTypeConverterHolder" />
+
+    <!-- 基本类型转换器：处理基本数据类型的转换 -->
+    <bean class="com.opensymphony.xwork2.conversion.impl.XWorkBasicConverter" />
+
+    <!-- 具体类型转换器：处理特定数据类型的转换，均使用单例模式提高性能 -->
+    <!-- 集合转换器：处理List、Set等集合类型的转换 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.CollectionConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.CollectionConverter" scope="singleton"/>
+    <!-- 数组转换器：处理数组类型的转换 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.ArrayConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.ArrayConverter" scope="singleton"/>
+    <!-- 日期转换器：处理日期类型的转换，支持多种日期格式 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.DateConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.DateConverter" scope="singleton"/>
+    <!-- 数字转换器：处理Integer、Long、Double等数字类型的转换 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.NumberConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.NumberConverter" scope="singleton"/>
+    <!-- 字符串转换器：处理String类型的转换 -->
+    <bean type="com.opensymphony.xwork2.conversion.impl.StringConverter" name="struts" class="com.opensymphony.xwork2.conversion.impl.StringConverter" scope="singleton"/>
+
+    <!-- 文本提供器和国际化支持：用于获取国际化文本消息 -->
+    <!-- struts文本提供器：提供国际化文本消息的获取功能 -->
+    <bean type="com.opensymphony.xwork2.TextProvider" name="struts" class="com.opensymphony.xwork2.TextProviderSupport" scope="default" />
+    <!-- struts区域设置提供器：提供当前用户的语言环境信息 -->
+    <bean type="com.opensymphony.xwork2.LocaleProvider" name="struts" class="com.opensymphony.xwork2.DefaultLocaleProvider" scope="singleton" />
+
+    <!-- URL 渲染和辅助工具：用于生成和处理URL -->
+    <!-- struts URL渲染器：负责渲染URL，支持URL重写等功能 -->
+    <bean type="org.apache.struts2.components.UrlRenderer" name="struts" class="org.apache.struts2.components.ServletUrlRenderer"/>
+    <!-- struts URL辅助工具：提供URL相关的辅助功能 -->
+    <bean type="org.apache.struts2.views.util.UrlHelper" name="struts" class="org.apache.struts2.views.util.DefaultUrlHelper"/>
+
+    <!-- OGNL 表达式相关配置：Object-Graph Navigation Language，用于在Struts2中访问对象属性 -->
+    <!-- struts值栈工厂：创建值栈对象，值栈是Struts2中存储数据的容器 -->
+    <bean type="com.opensymphony.xwork2.util.ValueStackFactory" name="struts" class="com.opensymphony.xwork2.ognl.OgnlValueStackFactory" />
+    <!-- struts反射提供器：提供对象反射功能，用于OGNL表达式访问对象属性 -->
+    <bean type="com.opensymphony.xwork2.util.reflection.ReflectionProvider" name="struts" class="com.opensymphony.xwork2.ognl.OgnlReflectionProvider" />
+    <!-- struts反射上下文工厂：创建反射上下文，存储反射相关的信息 -->
+    <bean type="com.opensymphony.xwork2.util.reflection.ReflectionContextFactory" name="struts" class="com.opensymphony.xwork2.ognl.OgnlReflectionContextFactory" />
+
+    <!-- 系统级文本提供器和空值处理器 -->
+    <!-- system文本提供器：系统级别的文本提供器，提供默认实现 -->
+    <bean type="com.opensymphony.xwork2.TextProvider" name="system" class="com.opensymphony.xwork2.DefaultTextProvider" />
+    <!-- java.lang.Object空值处理器：处理对象为空时的默认行为，自动实例化空对象 -->
+    <bean type="com.opensymphony.xwork2.conversion.NullHandler" name="java.lang.Object" class="com.opensymphony.xwork2.conversion.impl.InstantiatingNullHandler" />
+
+    <!-- 验证管理器配置：负责数据验证的管理，支持注解验证和XML配置验证 -->
+    <!-- struts注解验证管理器：使用注解方式进行数据验证 -->
+    <bean type="com.opensymphony.xwork2.validator.ActionValidatorManager" name="struts" class="com.opensymphony.xwork2.validator.AnnotationActionValidatorManager" />
+    <!-- no-annotations非注解验证管理器：使用XML配置文件进行数据验证 -->
+    <bean type="com.opensymphony.xwork2.validator.ActionValidatorManager" name="no-annotations" class="com.opensymphony.xwork2.validator.DefaultActionValidatorManager" />
+
+    <!-- 验证工厂和验证文件解析器 -->
+    <!-- 验证工厂：创建验证器实例 -->
+    <bean type="com.opensymphony.xwork2.validator.ValidatorFactory" class="com.opensymphony.xwork2.validator.DefaultValidatorFactory"/>
+    <!-- 验证文件解析器：解析验证配置文件（XML） -->
+    <bean type="com.opensymphony.xwork2.validator.ValidatorFileParser" class="com.opensymphony.xwork2.validator.DefaultValidatorFileParser" />
+
+    <!-- OGNL 工具类：提供OGNL表达式相关的实用功能 -->
+    <bean class="com.opensymphony.xwork2.ognl.OgnlUtil" />
+
+    <!-- OGNL 文本解析器：解析OGNL表达式中的文本内容 -->
+    <!-- struts OGNL文本解析器：单例模式，提高解析性能 -->
+    <bean type="com.opensymphony.xwork2.util.TextParser" name="struts" class="com.opensymphony.xwork2.util.OgnlTextParser" scope="singleton"/>
+
+    <!-- OGNL 属性访问器配置：用于访问不同类型的对象属性 -->
+    <!-- CompoundRoot属性访问器：访问值栈根对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="com.opensymphony.xwork2.util.CompoundRoot" class="com.opensymphony.xwork2.ognl.accessor.CompoundRootAccessor" />
+    <!-- java.lang.Object属性访问器：访问普通Java对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.lang.Object" class="com.opensymphony.xwork2.ognl.accessor.ObjectAccessor" />
+    <!-- Iterator迭代器属性访问器：访问Iterator对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.Iterator" class="com.opensymphony.xwork2.ognl.accessor.XWorkIteratorPropertyAccessor" />
+    <!-- Enumeration枚举属性访问器：访问Enumeration对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.Enumeration" class="com.opensymphony.xwork2.ognl.accessor.XWorkEnumerationAccessor" />
+    <!-- List列表属性访问器：访问List对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.List" class="com.opensymphony.xwork2.ognl.accessor.XWorkListPropertyAccessor" />
+    <!-- Set集合属性访问器：访问Set对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.Set" class="com.opensymphony.xwork2.ognl.accessor.XWorkCollectionPropertyAccessor" />
+    <!-- Map映射属性访问器：访问Map对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.Map" class="com.opensymphony.xwork2.ognl.accessor.XWorkMapPropertyAccessor" />
+    <!-- Collection集合属性访问器：访问Collection对象的属性 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.Collection" class="com.opensymphony.xwork2.ognl.accessor.XWorkCollectionPropertyAccessor" />
+    <!-- ObjectProxy对象代理属性访问器：访问对象代理的属性 -->
+    <bean type="ognl.PropertyAccessor" name="com.opensymphony.xwork2.ognl.ObjectProxy" class="com.opensymphony.xwork2.ognl.accessor.ObjectProxyPropertyAccessor" />
+
+    <!-- OGNL 方法访问器配置：用于调用对象的方法 -->
+    <!-- java.lang.Object方法访问器：调用普通Java对象的方法 -->
+    <bean type="ognl.MethodAccessor" name="java.lang.Object" class="com.opensymphony.xwork2.ognl.accessor.XWorkMethodAccessor" />
+    <!-- CompoundRoot方法访问器：调用值栈根对象的方法 -->
+    <bean type="ognl.MethodAccessor" name="com.opensymphony.xwork2.util.CompoundRoot" class="com.opensymphony.xwork2.ognl.accessor.CompoundRootAccessor" />
+
+    <!-- JSP 标签 OGNL 工具：在JSP标签中使用OGNL表达式的工具类 -->
+    <bean class="org.apache.struts2.views.jsp.ui.OgnlTool" />
+
+    <!-- 静态内容加载器和未知处理器 -->
+    <!-- struts静态内容加载器：加载静态资源（CSS、JS、图片等） -->
+    <bean type="org.apache.struts2.dispatcher.StaticContentLoader" class="org.apache.struts2.dispatcher.DefaultStaticContentLoader" name="struts" />
+    <!-- struts未知处理器：处理未知的Action或方法调用 -->
+    <bean type="com.opensymphony.xwork2.UnknownHandlerManager" class="com.opensymphony.xwork2.DefaultUnknownHandlerManager" name="struts" />
+
+    <!-- OGNL 缓存变通方案：因为目前无法清除 OGNL 内部缓存，所以针对常用集合类型配置专用访问器 -->
+    <!-- ArrayList属性访问器：专门处理ArrayList类型 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.ArrayList" class="com.opensymphony.xwork2.ognl.accessor.XWorkListPropertyAccessor" />
+    <!-- HashSet属性访问器：专门处理HashSet类型 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.HashSet" class="com.opensymphony.xwork2.ognl.accessor.XWorkCollectionPropertyAccessor" />
+    <!-- HashMap属性访问器：专门处理HashMap类型 -->
+    <bean type="ognl.PropertyAccessor" name="java.util.HashMap" class="com.opensymphony.xwork2.ognl.accessor.XWorkMapPropertyAccessor" />
+
+    <!-- ========== 包配置：定义结果类型、拦截器和拦截器栈 ========== -->
+    <!-- struts-default包：抽象包，其他包可继承此包获得默认配置 -->
+    <package name="struts-default" abstract="true">
+        <!-- 结果类型定义：定义Action执行完毕后可能的结果处理方式 -->
+        <result-types>
+            <!-- chain动作链：转发到另一个Action，保持请求上下文 -->
+            <result-type name="chain" class="com.opensymphony.xwork2.ActionChainResult"/>
+            <!-- dispatcher请求转发：将请求转发到JSP等视图资源（默认结果类型） -->
+            <result-type name="dispatcher" class="org.apache.struts2.dispatcher.ServletDispatcherResult" default="true"/>
+            <!-- freemarker FreeMarker模板：使用FreeMarker引擎渲染视图 -->
+            <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult"/>
+            <!-- httpheader HTTP响应头：控制HTTP响应头的返回 -->
+            <result-type name="httpheader" class="org.apache.struts2.dispatcher.HttpHeaderResult"/>
+            <!-- redirect重定向：重定向到指定的URL地址 -->
+            <result-type name="redirect" class="org.apache.struts2.dispatcher.ServletRedirectResult"/>
+            <!-- redirectAction重定向到Action：重定向到另一个Action -->
+            <result-type name="redirectAction" class="org.apache.struts2.dispatcher.ServletActionRedirectResult"/>
+            <!-- stream流结果：用于文件下载，返回二进制流 -->
+            <result-type name="stream" class="org.apache.struts2.dispatcher.StreamResult"/>
+            <!-- velocity Velocity模板：使用Velocity引擎渲染视图 -->
+            <result-type name="velocity" class="org.apache.struts2.dispatcher.VelocityResult"/>
+            <!-- xslt XSLT转换：使用XSLT将XML转换为其他格式 -->
+            <result-type name="xslt" class="org.apache.struts2.views.xslt.XSLTResult"/>
+            <!-- plainText纯文本：以纯文本形式显示内容，不进行任何渲染 -->
+            <result-type name="plainText" class="org.apache.struts2.dispatcher.PlainTextResult" />
+        </result-types>
+
+        <!-- 拦截器定义：定义所有可用的拦截器 -->
+        <interceptors>
+            <!-- alias别名拦截器：将请求参数以别名方式映射到Action属性 -->
+            <interceptor name="alias" class="com.opensymphony.xwork2.interceptor.AliasInterceptor"/>
+            <!-- autowiring自动装配拦截器：集成Spring，自动装配Action中的Bean -->
+            <interceptor name="autowiring" class="com.opensymphony.xwork2.spring.interceptor.ActionAutowiringInterceptor"/>
+            <!-- chain动作链拦截器：在动作链传递过程中传递数据 -->
+            <interceptor name="chain" class="com.opensymphony.xwork2.interceptor.ChainingInterceptor"/>
+            <!-- conversionError类型转换错误拦截器：处理类型转换失败的情况 -->
+            <interceptor name="conversionError" class="org.apache.struts2.interceptor.StrutsConversionErrorInterceptor"/>
+            <!-- cookie Cookie拦截器：读取和写入Cookie数据 -->
+            <interceptor name="cookie" class="org.apache.struts2.interceptor.CookieInterceptor"/>
+            <!-- cookieProvider Cookie提供者拦截器：提供Cookie相关功能 -->
+            <interceptor name="cookieProvider" class="org.apache.struts2.interceptor.CookieProviderInterceptor"/>
+            <!-- clearSession清除Session拦截器：清除Session数据 -->
+            <interceptor name="clearSession" class="org.apache.struts2.interceptor.ClearSessionInterceptor" />
+            <!-- createSession创建Session拦截器：创建Session对象 -->
+            <interceptor name="createSession" class="org.apache.struts2.interceptor.CreateSessionInterceptor" />
+            <!-- debugging调试拦截器：提供调试信息，仅在开发模式使用 -->
+            <interceptor name="debugging" class="org.apache.struts2.interceptor.debugging.DebuggingInterceptor" />
+            <!-- execAndWait执行并等待拦截器：长时间任务处理，显示等待页面 -->
+            <interceptor name="execAndWait" class="org.apache.struts2.interceptor.ExecuteAndWaitInterceptor"/>
+            <!-- exception异常拦截器：捕获异常并映射到错误页面 -->
+            <interceptor name="exception" class="com.opensymphony.xwork2.interceptor.ExceptionMappingInterceptor"/>
+            <!-- fileUpload文件上传拦截器：处理文件上传 -->
+            <interceptor name="fileUpload" class="org.apache.struts2.interceptor.FileUploadInterceptor"/>
+            <!-- i18n国际化拦截器：处理国际化，从请求中获取语言环境 -->
+            <interceptor name="i18n" class="com.opensymphony.xwork2.interceptor.I18nInterceptor"/>
+            <!-- logger日志拦截器：记录Action执行的日志信息 -->
+            <interceptor name="logger" class="com.opensymphony.xwork2.interceptor.LoggingInterceptor"/>
+            <!-- modelDriven模型驱动拦截器：使用模型对象接收参数 -->
+            <interceptor name="modelDriven" class="com.opensymphony.xwork2.interceptor.ModelDrivenInterceptor"/>
+            <!-- scopedModelDriven作用域模型驱动拦截器：将模型存储在作用域中 -->
+            <interceptor name="scopedModelDriven" class="com.opensymphony.xwork2.interceptor.ScopedModelDrivenInterceptor"/>
+            <!-- params参数拦截器：将请求参数设置到Action属性中 -->
+            <interceptor name="params" class="com.opensymphony.xwork2.interceptor.ParametersInterceptor"/>
+            <!-- actionMappingParams动作映射参数拦截器：传递动作映射相关的参数 -->
+            <interceptor name="actionMappingParams" class="org.apache.struts2.interceptor.ActionMappingParametersInteceptor"/>
+            <!-- prepare预处理拦截器：在参数赋值前执行预处理逻辑 -->
+            <interceptor name="prepare" class="com.opensymphony.xwork2.interceptor.PrepareInterceptor"/>
+            <!-- staticParams静态参数拦截器：将配置中的静态参数设置到Action -->
+            <interceptor name="staticParams" class="com.opensymphony.xwork2.interceptor.StaticParametersInterceptor"/>
+            <!-- scope作用域拦截器：在Session或Application作用域中存储数据 -->
+            <interceptor name="scope" class="org.apache.struts2.interceptor.ScopeInterceptor"/>
+            <!-- servletConfig Servlet配置拦截器：将Servlet相关对象注入到Action -->
+            <interceptor name="servletConfig" class="org.apache.struts2.interceptor.ServletConfigInterceptor"/>
+            <!-- timer计时拦截器：统计Action执行时间 -->
+            <interceptor name="timer" class="com.opensymphony.xwork2.interceptor.TimerInterceptor"/>
+            <!-- token令牌拦截器：防止表单重复提交，使用令牌机制 -->
+            <interceptor name="token" class="org.apache.struts2.interceptor.TokenInterceptor"/>
+            <!-- tokenSession令牌会话拦截器：将令牌存储在Session中 -->
+            <interceptor name="tokenSession" class="org.apache.struts2.interceptor.TokenSessionStoreInterceptor"/>
+            <!-- validation数据验证拦截器：验证Action数据 -->
+            <interceptor name="validation" class="org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor"/>
+            <!-- workflow工作流拦截器：根据验证结果决定是否继续执行 -->
+            <interceptor name="workflow" class="com.opensymphony.xwork2.interceptor.DefaultWorkflowInterceptor"/>
+            <!-- store消息存储拦截器：存储和检索Action消息 -->
+            <interceptor name="store" class="org.apache.struts2.interceptor.MessageStoreInterceptor" />
+            <!-- checkbox复选框拦截器：处理复选框未选中时的默认值 -->
+            <interceptor name="checkbox" class="org.apache.struts2.interceptor.CheckboxInterceptor" />
+            <!-- profiling性能分析拦截器：进行性能分析 -->
+            <interceptor name="profiling" class="org.apache.struts2.interceptor.ProfilingActivationInterceptor" />
+            <!-- roles角色权限拦截器：检查用户角色权限 -->
+            <interceptor name="roles" class="org.apache.struts2.interceptor.RolesInterceptor" />
+            <!-- annotationWorkflow注解工作流拦截器：处理注解方式的拦截器 -->
+            <interceptor name="annotationWorkflow" class="com.opensymphony.xwork2.interceptor.annotations.AnnotationWorkflowInterceptor" />
+            <!-- multiselect多选框拦截器：处理多选框数据 -->
+            <interceptor name="multiselect" class="org.apache.struts2.interceptor.MultiselectInterceptor" />
+
+            <!-- 基础拦截器栈：包含最常用的拦截器，是其他拦截器栈的基础 -->
+            <interceptor-stack name="basicStack">
+                <!-- exception异常处理：最先执行，捕获后续拦截器和Action的异常 -->
+                <interceptor-ref name="exception"/>
+                <!-- servletConfig Servlet配置：注入Servlet相关对象 -->
+                <interceptor-ref name="servletConfig"/>
+                <!-- prepare预处理：执行预处理逻辑 -->
+                <interceptor-ref name="prepare"/>
+                <!-- checkbox复选框：处理复选框未选中时的默认值 -->
+                <interceptor-ref name="checkbox"/>
+                <!-- multiselect多选框：处理多选框数据 -->
+                <interceptor-ref name="multiselect"/>
+                <!-- actionMappingParams动作映射参数：传递动作映射相关参数 -->
+                <interceptor-ref name="actionMappingParams"/>
+                <!-- params参数传递：将请求参数设置到Action属性中，排除危险参数防止安全漏洞 -->
+                <interceptor-ref name="params">
+                    <!-- 排除危险参数：防止恶意用户通过struts、session等前缀参数篡改系统数据 -->
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <!-- conversionError转换错误：处理类型转换失败的情况 -->
+                <interceptor-ref name="conversionError"/>
+            </interceptor-stack>
+
+            <!-- 验证和工作流栈：在基础栈上增加数据验证和工作流控制 -->
+            <interceptor-stack name="validationWorkflowStack">
+                <!-- 引入基础栈 -->
+                <interceptor-ref name="basicStack"/>
+                <!-- validation数据验证：验证Action数据的合法性 -->
+                <interceptor-ref name="validation"/>
+                <!-- workflow工作流：根据验证结果决定继续执行还是返回输入页面 -->
+                <interceptor-ref name="workflow"/>
+            </interceptor-stack>
+
+            <!-- 文件上传栈：在基础栈上增加文件上传功能 -->
+            <interceptor-stack name="fileUploadStack">
+                <!-- fileUpload文件上传：处理multipart/form-data请求，解析上传文件 -->
+                <interceptor-ref name="fileUpload"/>
+                <!-- 引入基础栈 -->
+                <interceptor-ref name="basicStack"/>
+            </interceptor-stack>
+
+            <!-- 模型驱动栈：在基础栈上增加模型驱动功能 -->
+            <interceptor-stack name="modelDrivenStack">
+                <!-- modelDriven模型驱动：使用单独的模型对象接收请求参数 -->
+                <interceptor-ref name="modelDriven"/>
+                <!-- 引入基础栈 -->
+                <interceptor-ref name="basicStack"/>
+            </interceptor-stack>
+
+            <!-- 动作链栈：在基础栈上增加动作链功能 -->
+            <interceptor-stack name="chainStack">
+                <!-- chain动作链：在多个Action之间传递数据 -->
+                <interceptor-ref name="chain"/>
+                <!-- 引入基础栈 -->
+                <interceptor-ref name="basicStack"/>
+            </interceptor-stack>
+
+            <!-- 国际化栈：在基础栈上增加国际化支持 -->
+            <interceptor-stack name="i18nStack">
+                <!-- i18n国际化：获取和设置用户的语言环境 -->
+                <interceptor-ref name="i18n"/>
+                <!-- 引入基础栈 -->
+                <interceptor-ref name="basicStack"/>
+            </interceptor-stack>
+
+            <!-- 参数-准备-参数栈：特殊技巧，参数传递两次，适用于复杂场景 -->
+            <!-- 执行顺序说明： -->
+            <!-- 1. 第一次params：获取ID等关键参数 -->
+            <!-- 2. prepare：根据ID加载对象到模型中 -->
+            <!-- 3. 第二次params：将剩余参数赋值到已加载的对象上 -->
+            <!-- 适用场景：编辑功能，需要先根据ID加载实体，再将表单参数填充到实体 -->
+            <interceptor-stack name="paramsPrepareParamsStack">
+                <!-- 异常处理 -->
+                <interceptor-ref name="exception"/>
+                <!-- 参数别名转换 -->
+                <interceptor-ref name="alias"/>
+                <!-- 国际化 -->
+                <interceptor-ref name="i18n"/>
+                <!-- 复选框处理 -->
+                <interceptor-ref name="checkbox"/>
+                <!-- 多选框处理 -->
+                <interceptor-ref name="multiselect"/>
+                <!-- 第一次参数传递：获取关键参数（如ID） -->
+                <interceptor-ref name="params">
+                    <!-- 排除危险参数 -->
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <!-- Servlet配置注入 -->
+                <interceptor-ref name="servletConfig"/>
+                <!-- 预处理：根据关键参数加载对象 -->
+                <interceptor-ref name="prepare"/>
+                <!-- 动作链 -->
+                <interceptor-ref name="chain"/>
+                <!-- 模型驱动 -->
+                <interceptor-ref name="modelDriven"/>
+                <!-- 文件上传 -->
+                <interceptor-ref name="fileUpload"/>
+                <!-- 静态参数 -->
+                <interceptor-ref name="staticParams"/>
+                <!-- 动作映射参数 -->
+                <interceptor-ref name="actionMappingParams"/>
+                <!-- 第二次参数传递：将参数赋值到已加载的对象 -->
+                <interceptor-ref name="params">
+                    <!-- 排除危险参数 -->
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <!-- 类型转换错误处理 -->
+                <interceptor-ref name="conversionError"/>
+                <!-- 数据验证：排除input、back、cancel、browse方法的验证 -->
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <!-- 工作流控制：排除input、back、cancel、rowse方法 -->
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+
+            <!-- 默认完整栈：包含所有常用拦截器，推荐使用 -->
+            <!-- 注意：拦截器顺序很重要，前面的拦截器先执行 -->
+            <!-- 排除input、back、cancel、browse方法的验证和工作流，这些方法通常用于显示表单 -->
+            <interceptor-stack name="defaultStack">
+                <!-- 异常处理：最先执行，捕获所有异常 -->
+                <interceptor-ref name="exception"/>
+                <!-- 参数别名转换 -->
+                <interceptor-ref name="alias"/>
+                <!-- Servlet配置注入 -->
+                <interceptor-ref name="servletConfig"/>
+                <!-- 国际化 -->
+                <interceptor-ref name="i18n"/>
+                <!-- 预处理 -->
+                <interceptor-ref name="prepare"/>
+                <!-- 动作链 -->
+                <interceptor-ref name="chain"/>
+                <!-- 作用域模型驱动 -->
+                <interceptor-ref name="scopedModelDriven"/>
+                <!-- 模型驱动 -->
+                <interceptor-ref name="modelDriven"/>
+                <!-- 文件上传 -->
+                <interceptor-ref name="fileUpload"/>
+                <!-- 复选框处理 -->
+                <interceptor-ref name="checkbox"/>
+                <!-- 多选框处理 -->
+                <interceptor-ref name="multiselect"/>
+                <!-- 静态参数 -->
+                <interceptor-ref name="staticParams"/>
+                <!-- 动作映射参数 -->
+                <interceptor-ref name="actionMappingParams"/>
+                <!-- 参数传递：排除危险参数 -->
+                <interceptor-ref name="params">
+                    <!-- 排除危险参数，防止安全漏洞 -->
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <!-- 类型转换错误处理 -->
+                <interceptor-ref name="conversionError"/>
+                <!-- 数据验证：排除input、back、cancel、browse方法 -->
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <!-- 工作流控制：排除input、back、cancel、browse方法 -->
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <!-- 调试：最后执行，提供调试信息 -->
+                <interceptor-ref name="debugging"/>
+            </interceptor-stack>
+
+            <!-- 完整栈：向后兼容，旧版本中使用此名称，实际就是defaultStack -->
+            <interceptor-stack name="completeStack">
+                <!-- 引用默认栈 -->
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+
+            <!-- 执行并等待栈：用于长时间运行的任务，显示等待页面 -->
+            <!-- 注意：execAndWait必须始终是最后一个拦截器，因为它会中断请求 -->
+            <interceptor-stack name="executeAndWaitStack">
+                <!-- 第一次execAndWait：开始监控长时间任务 -->
+                <interceptor-ref name="execAndWait">
+                    <!-- 排除input、back、cancel方法 -->
+                    <param name="excludeMethods">input,back,cancel</param>
+                </interceptor-ref>
+                <!-- 默认栈：执行正常的拦截器链 -->
+                <interceptor-ref name="defaultStack"/>
+                <!-- 第二次execAndWait：等待任务完成 -->
+                <interceptor-ref name="execAndWait">
+                    <!-- 排除input、back、cancel方法 -->
+                    <param name="excludeMethods">input,back,cancel</param>
+                </interceptor-ref>
+            </interceptor-stack>
+
+       </interceptors>
+
+        <!-- 默认使用的拦截器栈：所有继承此包的Action默认使用defaultStack -->
+        <default-interceptor-ref name="defaultStack"/>
+
+        <!-- 默认Action类：当Action配置未指定class时，使用此类 -->
+        <default-class-ref class="com.opensymphony.xwork2.ActionSupport" />
+    </package>
+
+</struts>

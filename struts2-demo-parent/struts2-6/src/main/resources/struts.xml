@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="testConversion" class="com.fuxi.struts.app.ConversionAction">
+            <result>/success.jsp</result>
+            <!-- 如果出错了会找下面name="input"的这个页面 -->
+            <result name="input">/index.jsp</result>
+        </action>
+        <action name="testComplextProperty" class="com.fuxi.struts.app.TestComplextPropertyAction">
+            <result>/success.jsp</result>
+        </action>
+    </package>
+</struts>

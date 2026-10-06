@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!--
+			package:Struts 2使用package来组织模块。
+			name属性:必须,用于其他的包引用当前包。
+			extends:当前包继承哪个包,可以继承其中所有的配置,通常情况下继承struts-default 
+							struts-default这个包是在struts-default.xml文件中定义的
+			namespace:可选的,如果他没有给出,则以/为默认值,若为非默认值,则要想调用这个包里面的action就必须把这个属性所定义
+			的命名空间添加到有关的URI里面。
+			例如:http://localhost:8080/contextPath/namespace/actionName.action
+	-->
+	<package name="helloworld" extends="struts-default" >
+		<!-- 
+				配置一个action:一个Struts 2的请求就是一个action
+				name:对应一个Struts 2的请求的名字,不包含扩展名
+				class:默认值为 com.opensymphony.xwork2.ActionSupport
+				method:默认值为 execute
+				result:表示结果
+		-->
+		<action name="product-input" >
+		<!-- 
+				result:结果,表示action方法执行后可能返回的一个结果,一个action结果可能会有多个result子节点使用name进行区分。
+				name:标识一个result,和action方法的返回值对应,默认值为SUCCESS。
+				type:表示结果的类型,默认值为dispatcher(转发到结果)。
+		 -->
+			<result >/WEB-INF/pages/input.jsp</result>
+		</action>
+		<action name="product-save" class="com.fuxi.struts2.helloworld.Product" method="save">
+			<result name="details">/WEB-INF/pages/details.jsp</result>
+		</action>
+	</package>
+</struts>

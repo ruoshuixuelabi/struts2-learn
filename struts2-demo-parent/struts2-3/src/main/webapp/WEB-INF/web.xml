@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+    <!--
+        配置 Struts2 的核心过滤器
+        Struts2 通过 Filter 拦截所有请求，进行统一处理
+    -->
+    <filter>
+        <!-- 过滤器名称，用于 filter-mapping 中引用 -->
+        <filter-name>struts2</filter-name>
+        <!--
+            配置 Struts2 核心过滤器的完整类名
+            注意：在 Struts 2.5 版本中，核心拦截器类路径已改为：
+            org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter
+            而 2.5 之前版本使用的是：
+            org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+        -->
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+    <!--
+        配置过滤器的映射规则
+        指定哪些 URL 请求需要被上述过滤器拦截处理
+    -->
+    <filter-mapping>
+        <!-- 引用的过滤器名称，必须与 filter 中的 filter-name 一致 -->
+        <filter-name>struts2</filter-name>
+        <!--
+            URL 匹配模式
+            /* 表示拦截所有请求
+            这样所有的 HTTP 请求都会经过 Struts2 框架处理
+        -->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+</web-app>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!-- 配置Struts2可以受理的请求的扩展名 -->
+    <constant name="struts.action.extension" value="action,do"/>
+    <!-- 打开允许动态方法调用的开关,默认值为false -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <package name="default" namespace="/" extends="struts-default">
+        <!-- 测试与与Servlet API解耦的访问方式的第一种方式通过ActionContext 访问 Web 资源 -->
+        <action name="TestActionContext" class="com.fuxi.struts2.action.TestActionContextAction">
+            <result>/test-actionContext.jsp</result>
+        </action>
+        <!-- 测试与Servlet API解耦的访问方式的第二种方式通过实现XXXAware接口的方式访问 Web 资源 -->
+        <action name="TestAware" class="com.fuxi.struts2.action.TestAwareAction">
+            <result>/test-aware.jsp</result>
+        </action>
+        <!-- 测试与与Servlet API耦合的访问方式的第一种方式通过ServletActionContext访问 Web 资源 -->
+        <action name="TestServletActionContext" class="com.fuxi.struts2.action.TestServletActionContextAction">
+            <result>/test-aware.jsp</result>
+        </action>
+        <!-- 测试与与Servlet API耦合的访问方式的第二种方式通过实现ServletXxxAware接口的方式访问 Web 资源 -->
+        <action name="TestServletAware" class="com.fuxi.struts2.action.TestServletAwareTest">
+            <result>/test-aware.jsp</result>
+        </action>
+        <action name="testResult" class="com.fuxi.struts2.action.TestResultAction">
+            <!--
+                dispatcher是默认的类型,可以不写。
+                dispatcher结果类型不能把控制权转发给一个外部资源,
+                若需要把控制权重定向到一个外部资源,应该使用redirect结果类型
+             -->
+            <result name="success" type="dispatcher">/success.jsp</result>
+            <result name="login" type="redirect">/login.jsp</result>
+            <!-- 其实通过redirect的相应类型也可以便捷的实现redirectAction的功能 -->
+            <!-- 重定向到一个action
+                <result name="index" type="redirectAction">
+                        <param name="actionName">testAction</param>
+                        <param name="namespace">/fuxi</param>
+                </result>
+            -->
+            <result name="index" type="redirect">/fuxi/testAction</result>
+            <!-- 转发到一个action -->
+            <result name="test" type="chain">
+                <param name="actionName">testAction</param>
+                <param name="namespace">/fuxi</param>
+            </result>
+        </action>
+        <action name="login-ui">
+            <result>/login.jsp</result>
+        </action>
+        <action name="user-login" class="com.fuxi.struts2.action.UserAction">
+            <result name="login-success">/login-success.jsp</result>
+        </action>
+        <action name="logout" class="com.fuxi.struts2.action.UserAction" method="logout">
+            <result name="logout-success">/login.jsp</result>
+        </action>
+        <!-- 配置动态方法调用的action -->
+        <action name="testDynamicMethodInvocation"
+                class="com.fuxi.struts2.action.TestDynamicMethodInvocation" method="save">
+            <result>/success.jsp</result>
+        </action>
+    </package>
+    <package name="testPackage" namespace="/fuxi" extends="struts-default">
+        <action name="testAction"/>
+    </package>
+</struts>
