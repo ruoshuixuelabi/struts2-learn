@@ -5,7 +5,7 @@
 <struts>
     <package name="ancient02" namespace="/" extends="jsf-default">
         <action name="jsfBridge" class="com.example.learn.struts2.ancient02.JsfBridgeAction">
-            <result>/jsf-result.jsp</result>
+            <result type="jsf">/jsf-result.jsp</result>
         </action>
     </package>
 </struts>

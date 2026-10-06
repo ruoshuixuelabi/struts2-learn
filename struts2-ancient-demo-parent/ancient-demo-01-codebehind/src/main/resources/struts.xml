@@ -4,6 +4,7 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
     <!-- CodeBehind 插件启用常量（存在即启用） -->
+    <!-- 不存在 struts.codebehind 这个常量，插件靠 classpath 里的 jar 自动激活 -->
     <constant name="struts.codebehind" value="true" />
     <package name="ancient01" namespace="/" extends="struts-default">
         <action name="hello" class="com.example.learn.struts2.ancient01.HelloAction">
