@@ -1,6 +1,7 @@
 package com.example.learn.struts2.demo08;
 
 import org.apache.struts2.ActionSupport;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,11 +11,11 @@ public class UserFormAction extends ActionSupport {
 
     private User user = new User();
     private List<String> cities = new ArrayList<>(Arrays.asList("BJ", "SH", "GZ", "SZ"));
-
+    @StrutsParameter(depth = 1)
     public User getUser() {
         return user;
     }
-
+    @StrutsParameter(depth = 1)
     public void setUser(User user) {
         this.user = user;
     }

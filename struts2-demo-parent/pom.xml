@@ -11,6 +11,14 @@
     <description>当前版本 Struts 7.3.0 GA 学习 demo 父项目（JDK 17 + Jakarta Servlet 6）</description>
     <modules>
         <module>struts2-1</module>
+        <module>struts2-2</module>
+        <module>struts2-3</module>
+        <module>struts2-4</module>
+        <module>struts2-5</module>
+        <module>struts2-6</module>
+        <module>struts2-7</module>
+        <module>struts2-8</module>
+        <module>struts2-9</module>
         <module>struts2-demo-test-support</module>
         <module>demo-01-helloworld</module>
         <module>demo-02-action-three-ways</module>
@@ -32,6 +40,7 @@
         <module>demo-18-validation-annotation</module>
         <module>demo-19-spring-plugin</module>
         <module>demo-20-security</module>
+        <module>demo-21-plugin-convention</module>
         <module>demo-22-plugin-json</module>
         <module>demo-23-plugin-rest</module>
         <module>demo-24-plugin-cdi</module>
@@ -46,10 +55,14 @@
         <module>demo-33-plugin-jasperreports</module>
         <module>demo-34-plugin-jfreechart</module>
         <module>demo-35-plugin-async</module>
+        <module>demo-36-plugin-custom</module>
     </modules>
     <properties>
         <struts.version>7.3.0</struts.version>
-        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <jetty-plugin.version>11.0.26</jetty-plugin.version>
+        <lombok.version>1.18.48</lombok.version>
+        <log4j2.version>2.26.1</log4j2.version>
+        <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
         <jakarta.servlet.jsp.version>3.1.1</jakarta.servlet.jsp.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <spring.version>6.2.3</spring.version>
@@ -158,6 +171,12 @@
                 <artifactId>struts2-testng-plugin</artifactId>
                 <version>${struts.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>compile</scope>
+            </dependency>
             <!-- Servlet API -->
             <dependency>
                 <groupId>jakarta.servlet</groupId>
@@ -209,7 +228,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>12.0.3</version>
+                    <version>11.0.26</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

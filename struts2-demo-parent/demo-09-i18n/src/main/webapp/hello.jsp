@@ -30,7 +30,7 @@
     <s:param>${userName}</s:param>
 </s:text></p>
 
-<p><s:text name="nonexistent.key" default="Default Fallback Text"/></p>
+<p><s:text name="nonexistent.key" /></p>
 
 <hr/>
 

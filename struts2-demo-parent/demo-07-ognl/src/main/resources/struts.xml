@@ -3,15 +3,20 @@
         "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
         "https://struts.apache.org/dtds/struts-6.0.dtd">
 <struts>
+    <constant name="struts.allowlist.packageNames" value="com.example.learn.struts2.demo07"/>
+    <constant name="struts.allowlist.classes" value="java.lang.Math"/>
     <!-- OGNL 安全约束（7.x 推荐显式声明） -->
     <constant name="struts.ognl.expressionMaxLength" value="150"/>
     <!-- 静态方法默认禁用；本 demo 显式启用以演示 @java.lang.Math@PI -->
-    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
-    <constant name="struts.ognl.excludedClasses"
-              value="java.lang.Runtime,java.lang.Process,java.io.File,java.net.URL"/>
-    <constant name="struts.ognl.excludedPackageNames"
-              value="java.lang,java.io,java.net,java.util.concurrent"/>
-
+<!--    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>-->
+    <!--    Struts 7 访问一个静态字段 = 总闸（字段类）+ 白名单（类）+ 排除名单（不撞雷），缺一不可。
+    这也完整解释了为什么 Struts 官方默认连 Math.PI 都不给看——
+    7.x 的安全哲学就是"默认全关，逐层放行"，和老版本的"默认全开，黑名单堵漏"正好相反。-->
+    <constant name="struts.ognl.allowStaticFieldAccess" value="true"/>
+    <!--    这两个 constant 是覆盖语义——删了，Struts 默认那张精心配置的排除清单（含 Class、ClassLoader、Thread、System、sun.*、ognl.* 等）才生效-->
+    <!--    你现在这份自定义清单等于把 Class/ClassLoader/System 全放行了，防护力比默认还弱，留着是安全隐患-->
+    <!--    <constant name="struts.ognl.excludedClasses" value="java.lang.Runtime,java.lang.Process,java.io.File,java.net.URL"/>-->
+    <!--    <constant name="struts.ognl.excludedPackageNames" value="java.lang,java.io,java.net,java.util.concurrent"/>-->
     <package name="default" namespace="/" extends="struts-default">
         <action name="ognl" class="com.example.learn.struts2.demo07.OgnlAction">
             <result>/ognl.jsp</result>

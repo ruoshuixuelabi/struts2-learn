@@ -8,7 +8,7 @@
     <constant name="struts.devMode" value="false"/>
 
     <!-- OGNL allowlist：仅允许 java.lang / java.util / xwork2 / struts2 / 自己的包 -->
-    <constant name="struts.xwork.allowed.package.names" value="
+    <constant name="struts.allowed.namespace.names" value="
         java.lang,
         java.util,
         com.opensymphony.xwork2,

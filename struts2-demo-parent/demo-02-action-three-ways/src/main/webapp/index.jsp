@@ -5,6 +5,6 @@
 <ul>
     <li><a href="pojo.action">POJO 方式</a></li>
     <li><a href="interface.action">实现 Action 接口</a></li>
-    <li><a href="annotation.action">注解方式</a></li>
+    <li><a href="annotation/annotation.action">注解方式</a></li>
 </ul>
 </body></html>

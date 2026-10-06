@@ -23,20 +23,16 @@
         <li><s:property value="name"/> (<s:property value="age"/>)</li>
     </s:iterator>
 </ul>
-
 <h2>5. 集合投影（只取 name）</h2>
 <ul>
     <s:iterator value="users.{name}">
         <li><s:property/></li>
     </s:iterator>
 </ul>
-
 <h2>6. 第一个元素 / 最后一个元素</h2>
-<p>first = <s:property value="users.^{name}"/></p>
-<p>last = <s:property value="users.${name}"/></p>
-
+<p>first = <s:property value="users.{^#this.age > 18}[0].name"/></p>
+<p>last = <s:property value="users.{$#this.age > 18}[0].name"/></p>
 <h2>7. 静态字段（需 enableStaticMethodAccess=true）</h2>
 <p>@java.lang.Math@PI = <s:property value="@java.lang.Math@PI"/></p>
-
 </body>
 </html>

@@ -9,12 +9,10 @@
     </parent>
     <artifactId>demo-09-i18n</artifactId>
     <packaging>war</packaging>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.struts</groupId>
@@ -46,9 +44,17 @@
             <artifactId>struts2-demo-test-support</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>demo-09-i18n</finalName>
         <plugins>

@@ -1,6 +1,7 @@
 package com.example.learn.struts2.demo13;
 
 import org.apache.struts2.ActionSupport;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 /**
  * 演示 ValidationAware 接口（在 ActionSupport 中已实现）：
@@ -35,9 +36,12 @@ public class ValidationAwareAction extends ActionSupport {
         }
         return SUCCESS;
     }
-
+    @StrutsParameter
     public String getUsername() { return username; }
+    @StrutsParameter
     public void setUsername(String username) { this.username = username; }
+    @StrutsParameter
     public Integer getAge() { return age; }
+    @StrutsParameter
     public void setAge(Integer age) { this.age = age; }
 }

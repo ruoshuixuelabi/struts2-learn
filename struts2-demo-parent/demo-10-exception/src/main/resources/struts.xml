@@ -34,10 +34,11 @@
             <!-- Action 级异常映射（优先于全局） -->
             <exception-mapping exception="java.lang.IllegalArgumentException" result="input"/>
             <exception-mapping exception="java.lang.SecurityException" result="login"/>
-
             <result name="success">/home.jsp</result>
             <result name="input">/home.jsp</result>
             <result name="login">/login.jsp</result>
+            <!-- 必须放最后：DTD 规定它是 action 的收尾元素 -->
+            <allowed-methods>delete, login, throwNpe, findUser</allowed-methods>
         </action>
     </package>
 </struts>

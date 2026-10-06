@@ -4,6 +4,7 @@ import org.apache.struts2.ActionSupport;
 import org.apache.struts2.Preparable;
 
 import com.example.learn.struts2.demo13.model.User;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 /**
  * 演示 Preparable 接口：每次请求到达 Action 业务方法前调用 prepare()。
@@ -32,8 +33,10 @@ public class PreparableAction extends ActionSupport implements Preparable {
     public String edit() {
         return SUCCESS;
     }
-
+    @StrutsParameter
     public Long getId() { return id; }
+    @StrutsParameter
     public void setId(Long id) { this.id = id; }
+    @StrutsParameter
     public User getUser() { return user; }
 }

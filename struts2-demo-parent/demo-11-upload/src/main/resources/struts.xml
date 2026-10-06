@@ -10,7 +10,9 @@
               value="image/jpeg,image/png,application/pdf,text/plain"/>
 
     <package name="default" namespace="/" extends="struts-default">
-
+        <action name="index">
+            <result>/index.jsp</result>
+        </action>
         <!-- 上传 Action：使用 7.x 推荐的新拦截器 actionFileUpload -->
         <action name="upload" class="com.example.learn.struts2.demo11.UploadAction">
             <interceptor-ref name="actionFileUpload">

@@ -6,6 +6,10 @@
 <body>
 
 <h1>Demo 10: 异常处理</h1>
+<%-- 异常映射发生时，ExceptionHolder 被压到栈顶，从这里显式取异常信息 --%>
+<s:if test="exception != null">
+    <p style="color:red">捕获异常：<s:property value="exception.message"/></p>
+</s:if>
 
 <s:actionerror/>
 

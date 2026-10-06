@@ -6,10 +6,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
 @Namespace("/annotation")
-@Action("/annotation/annotation")
-@Results({
-    @Result(name = "success", location = "/annotation-result.jsp")
-})
+@Action("annotation")   // 不带斜杠，和 @Namespace 拼接
+@Results(@Result(name = "success", location = "/annotation-result.jsp"))
 public class AnnotationAction {
     public String execute() {
         return "success";

@@ -9,7 +9,9 @@
     <package name="default" namespace="/" extends="struts-default">
         <!-- 扩展默认允许的方法列表（加上 edit / check 给 demo 用） -->
         <global-allowed-methods>execute,input,back,cancel,browse,save,delete,list,index,edit,check</global-allowed-methods>
-
+        <action name="index">
+            <result>/index.jsp</result>
+        </action>
         <!-- Preparable（prepare 钩子） -->
         <action name="preparable" class="com.example.learn.struts2.demo13.PreparableAction">
             <!-- paramsPrepareParamsStack：params→prepare→params，prepare() 里能拿到 id -->

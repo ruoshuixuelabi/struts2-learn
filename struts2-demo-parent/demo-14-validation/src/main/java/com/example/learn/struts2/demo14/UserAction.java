@@ -1,6 +1,7 @@
 package com.example.learn.struts2.demo14;
 
 import org.apache.struts2.ActionSupport;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 /**
  * 演示 XML 校验。
@@ -22,7 +23,9 @@ public class UserAction extends ActionSupport {
     }
 
     public String getUsername() { return username; }
+    @StrutsParameter
     public void setUsername(String username) { this.username = username; }
     public Integer getAge() { return age; }
+    @StrutsParameter
     public void setAge(Integer age) { this.age = age; }
 }

@@ -10,7 +10,7 @@ mvn -pl demo-12-result jetty:run
 
 测试 URL：
 
-- http://localhost:8080/demo-12-result/index.jsp （导航页，列出 4 个 demo 链接）
+- http://localhost:8080/demo-12-result/index.action （导航页，列出 4 个 demo 链接）
 - http://localhost:8080/demo-12-result/dispatcher.action （dispatcher 转发 → dispatcher.jsp）
 - http://localhost:8080/demo-12-result/redirect.action （302 重定向 → redirect-target.jsp）
 - http://localhost:8080/demo-12-result/chain-first.action （chain 链式 → chain-second.action → chain-result.jsp）

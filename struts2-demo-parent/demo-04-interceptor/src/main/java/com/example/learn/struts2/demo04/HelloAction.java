@@ -12,6 +12,7 @@ public class HelloAction extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
+        System.out.println("中文测试ABC123");
         System.out.println("HelloAction 业务逻辑...");
         message = "Hello from Demo 04 (basic interceptor)";
         return SUCCESS;

@@ -1,6 +1,7 @@
 package com.example.learn.struts2.demo10;
 
 import org.apache.struts2.ActionSupport;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 /**
  * 演示 Struts 2.x 两层异常处理：
@@ -40,5 +41,6 @@ public class UserAction extends ActionSupport {
     }
 
     public Long getId() { return id; }
+    @StrutsParameter
     public void setId(Long id) { this.id = id; }
 }

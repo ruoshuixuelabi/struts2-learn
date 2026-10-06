@@ -29,13 +29,13 @@ public class FilterDispatcher implements Filter {
             String productDesc = request.getParameter("productDesc");
             String productPrice = request.getParameter("productPrice");
             // .2)把请求信息封装为一个Product对象
-            Product product = new Product(null, productName, productDesc, Double.parseDouble(productPrice));
+//            Product product = new Product(null, productName, productDesc, Double.parseDouble(productPrice));
             // .3)执行保存操作
-            System.out.println("保存成功" + product);
-            product.setProductId(1011);
+//            System.out.println("保存成功" + product);
+//            product.setProductId(1011);
             // .4)把product对象保存到request中。本来我们可以这样显示${param.productName},但是我们现在想要${requestScope.product.productName}
             //因为id并不在转发的里面,其实$(param.user)相当于<%=request.getParameter("user")%>
-            request.setAttribute("product", product);
+//            request.setAttribute("product", product);
             path = "WEB-INF/pages/details.jsp";
         }
         //如果转发的地址不是空就开始执行转发

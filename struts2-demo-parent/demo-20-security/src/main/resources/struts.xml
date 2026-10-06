@@ -12,7 +12,7 @@
     <!-- ============================================== -->
     <!-- 第 2 道：OGNL allowlist（限制可访问包）         -->
     <!-- ============================================== -->
-    <constant name="struts.xwork.allowed.package.names" value="
+    <constant name="struts.allowed.namespace.names" value="
         java.lang,
         java.util,
         com.opensymphony.xwork2,
@@ -21,7 +21,7 @@
     "/>
 
     <!-- 7.x 默认开启；显式列出常见危险类 -->
-    <constant name="struts.ognl.excludedClasses" value="
+    <constant name="struts.excludedClasses" value="
         java.lang.Runtime,
         java.lang.ProcessBuilder,
         java.lang.System

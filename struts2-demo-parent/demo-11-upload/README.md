@@ -10,7 +10,7 @@ mvn -pl demo-11-upload jetty:run
 
 测试 URL：
 
-- http://localhost:8080/demo-11-upload/index.jsp （上传表单）
+- http://localhost:8080/demo-11-upload/index.action （上传表单）
 - http://localhost:8080/demo-11-upload/download.action?fileName=hello.txt （下载示例文件，target/hello.txt 已预置）
 
 ## 文件清单

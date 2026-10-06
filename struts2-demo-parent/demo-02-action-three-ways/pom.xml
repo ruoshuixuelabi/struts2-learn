@@ -9,12 +9,10 @@
     </parent>
     <artifactId>demo-02-action-three-ways</artifactId>
     <packaging>war</packaging>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.struts</groupId>
@@ -45,17 +43,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>demo-02-action-three-ways</finalName>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty-plugin.version}</version>
                 <configuration>
                     <webApp>
-                        <contextPath>/demo-02-action-three-ways</contextPath>
+                        <contextPath>/${project.artifactId}</contextPath>
                     </webApp>
+                    <stopKey>CTRL+C</stopKey>
+                    <stopPort>8999</stopPort>
+                    <scan>10</scan>
                 </configuration>
             </plugin>
         </plugins>
