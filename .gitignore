@@ -51,7 +51,7 @@ out/
 
 # IDE - VS Code
 .vscode/
-
+.fastRequest
 # Maven 编译输出(补充)
 /target/
 **/target/
