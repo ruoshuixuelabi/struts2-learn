@@ -9,17 +9,19 @@
     </parent>
     <artifactId>struts1-demo-02-actionform</artifactId>
     <packaging>war</packaging>
-
     <properties>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
     <dependencies>
         <!-- Struts 1 核心坐标：注意 artifactId 是 struts（不带 2） -->
         <dependency>
             <groupId>org.apache.struts</groupId>
-            <artifactId>struts</artifactId>
+            <artifactId>struts-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-taglib</artifactId>
         </dependency>
         <!--
             Servlet API 2.5: javax.servlet:servlet-api 在 Maven Central 不存在。
@@ -35,13 +37,6 @@
             <version>1.0.1.Final</version>
             <scope>provided</scope>
         </dependency>
-        <!-- JSP API 2.1：同样用 JBoss 规范包 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
-            <artifactId>jboss-jsp-api_2.1_spec</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -49,4 +44,24 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- Compiler 插件,设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.2.30.v20200428</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/${project.artifactId}</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

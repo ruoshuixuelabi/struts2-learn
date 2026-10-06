@@ -9,36 +9,29 @@
     </parent>
     <artifactId>struts1-demo-01-helloworld</artifactId>
     <packaging>war</packaging>
-
     <properties>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
     <dependencies>
-        <!-- Struts 1 核心坐标：注意 artifactId 是 struts（不带 2） -->
+        <!-- Struts 1 核心（1.3 起拆为模块化 jar，中央仓库不存在单体 struts 构件） -->
         <dependency>
             <groupId>org.apache.struts</groupId>
-            <artifactId>struts</artifactId>
+            <artifactId>struts-core</artifactId>
+        </dependency>
+        <!-- Struts 1 JSP 标签库（<html:form> 等），版本由父 POM 统一管理 -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-taglib</artifactId>
         </dependency>
         <!--
-            Servlet API 2.5: javax.servlet:servlet-api 在 Maven Central 不存在。
-            实际可用 artifact：
-            方案 A：org.jboss.spec.javax.servlet:jboss-servlet-api_2.5_spec
-            方案 B：org.mortbay.jetty:servlet-api-2.5
-            方案 C：<scope>system</scope> + 指向本地 servlet-api.jar
-            本 demo 采用方案 A（JBoss 规范包，repository 已在父 POM 中加 jboss）
+            Servlet API 2.5：javax.servlet:servlet-api 的 2.4/2.5 版本从未发布到 Maven 中央仓库
+            （Sun 时代授权问题），编译期需要 javax.servlet.*，故用 JBoss 规范包代替。
+            provided scope：仅参与编译，运行时由 Jetty 容器提供实现。
         -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_2.5_spec</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- JSP API 2.1：同样用 JBoss 规范包 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
-            <artifactId>jboss-jsp-api_2.1_spec</artifactId>
             <version>1.0.1.Final</version>
             <scope>provided</scope>
         </dependency>
@@ -49,4 +42,24 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- Compiler 插件,设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.2.30.v20200428</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/${project.artifactId}</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
